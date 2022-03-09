@@ -7,6 +7,9 @@
   "files": [
     "lib/**/*"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "build": "tsc",
     "sample:clientCredentials": "ts-node -r tsconfig-paths/register samples/client_credentials.ts",
@@ -14,15 +17,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cognitedata/cognite-auth-wrapper.git"
+    "url": "git+https://github.com/cognitedata/auth-wrapper.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cognitedata/cognite-auth-wrapper/issues"
+    "url": "https://github.com/cognitedata/auth-wrapper/issues"
   },
-  "homepage": "https://github.com/cognitedata/cognite-auth-wrapper#readme",
+  "homepage": "https://github.com/cognitedata/auth-wrapper#readme",
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
