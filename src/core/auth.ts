@@ -1,11 +1,11 @@
+import * as open from 'open';
+import { Client, Issuer, generators } from 'openid-client';
+
 import {
     ICogniteAuthWrapper,
     ISettings,
     LoginMethods,
-} from 'interfaces/common';
-import * as open from 'open';
-import { Client, Issuer, generators } from 'openid-client';
-
+} from '../interfaces/common';
 import { listenForAuthCode, openServerAtPort } from './server';
 
 class CogniteAuthWrapper implements ICogniteAuthWrapper {

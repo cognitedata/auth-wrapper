@@ -1,7 +1,7 @@
 {
-  "name": "cognite-auth-wrapper",
+  "name": "@cognitedata/auth-wrapper",
   "version": "1.0.0",
-  "description": "A basically auth wrapper for OIDC login",
+  "description": "A basically auth wrapper for OIDC login.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
