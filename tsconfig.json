@@ -1,0 +1,7 @@
+{
+    "extends": "./tsconfig.common",
+    "compilerOptions": {
+        "baseUrl": "src",
+        "outDir": "lib"
+    }
+}
