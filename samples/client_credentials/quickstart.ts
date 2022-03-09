@@ -1,6 +1,11 @@
-import { CogniteAuthWrapper, LoginMethods } from '../../src/index';
+import {
+    CogniteAuthWrapper,
+    ICogniteAuthWrapper,
+    ISettings,
+    LoginMethods,
+} from '../../src/index';
 
-const settings = {
+const settings: ISettings = {
     authority: process.env.COGNITE_AUTHORITY,
     client_id: process.env.COGNITE_CLIENT_ID,
     client_secret: process.env.COGNITE_CLIENT_SECRET,
@@ -10,10 +15,10 @@ const settings = {
     scope: process.env.COGNITE_SCOPE,
 };
 
-const authWrapper = new CogniteAuthWrapper(settings);
+const authWrapper: ICogniteAuthWrapper = new CogniteAuthWrapper(settings);
 
 authWrapper
-    .login('CLIENT_CREDENTIALS')
+    .login(LoginMethods.CLIENT_CREDENTIALS)
     .then((result) => {
         console.log(result);
     })
