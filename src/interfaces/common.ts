@@ -1,3 +1,10 @@
+import { Issuer, TokenSet } from 'openid-client';
+
+enum LoginMethod {
+    pkce = 'PKCE',
+    redirect = 'REDIRECT',
+}
+
 interface ISettings {
     authority: string;
     client_id: string;
@@ -9,8 +16,10 @@ interface ISettings {
 }
 
 interface ICogniteAuthWrapper {
-    readonly settings: ISettings;
-    readonly checkAuthentication: any;
+    settings: ISettings;
+    issuer: Issuer;
+    checkAuthentication?: boolean;
+    login: (method: LoginMethod) => Promise<TokenSet | null>;
 }
 
-export { ISettings, ICogniteAuthWrapper };
+export { LoginMethod, ISettings, ICogniteAuthWrapper };

@@ -1,3 +1,3 @@
 import CogniteAuthWrapper from './core/auth';
 
-export { CogniteAuthWrapper };
+export default CogniteAuthWrapper;
