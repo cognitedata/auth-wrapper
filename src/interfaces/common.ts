@@ -2,7 +2,6 @@ import { TokenSet } from 'openid-client';
 
 enum LoginMethods {
     CLIENT_CREDENTIALS,
-    REDIRECT,
     PKCE,
 }
 

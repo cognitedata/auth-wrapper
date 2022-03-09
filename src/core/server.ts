@@ -11,8 +11,16 @@ export const openServerAtPort = async () => {
     });
 };
 
-export const listenForAuthCode = async (app: express.Express) => {
-    return new Promise<{ code: string; state: string }>((resolve, reject) => {
+export const listenForAuthCode = async (
+    app: express.Express,
+    field: 'code' | 'id_token'
+) => {
+    return new Promise<{
+        code: string;
+        state: string;
+        id_token?: string;
+        session_state?: string;
+    }>((resolve, reject) => {
         // eslint-disable-next-line consistent-return
         app.get('/callback', (req, res) => {
             if (req.query.error) {
@@ -22,8 +30,7 @@ export const listenForAuthCode = async (app: express.Express) => {
                 return reject(req.query.error);
             }
 
-            const authCode = req.query.code;
-
+            const authCode = req.query[field];
             if (!authCode) {
                 res.end(
                     `Well thats embarrassing, neither we got an auth code or any error ${JSON.stringify(
@@ -36,7 +43,16 @@ export const listenForAuthCode = async (app: express.Express) => {
             res.end(
                 'You have authenticated successfully! Feel free to close this window.'
             );
-            return resolve(<{ code: string; state: string }>req.query);
+            return resolve(
+                <
+                    {
+                        code: string;
+                        state: string;
+                        id_token?: string;
+                        session_state?: string;
+                    }
+                >req.query
+            );
         });
     });
 };
