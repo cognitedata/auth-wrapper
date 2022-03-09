@@ -6,6 +6,8 @@ import {
 import * as open from 'open';
 import { Client, Issuer, TokenSet, generators } from 'openid-client';
 
+import { listenForAuthCode, openServerAtPort } from './server';
+
 class CogniteAuthWrapper implements ICogniteAuthWrapper {
     protected settings: ISettings;
     protected issuer: Issuer;
@@ -27,9 +29,8 @@ class CogniteAuthWrapper implements ICogniteAuthWrapper {
             ...(this.settings.client_secret
                 ? { client_secret: this.settings.client_secret }
                 : {}),
-            redirect_uris: [this.settings.redirect_uri],
+            redirect_uris: ['http://localhost:59999/callback'],
             response_types: [this.settings.response_type],
-            post_logout_redirect_uris: [this.settings.post_logout_redirect_uri],
         });
 
         if (method === LoginMethods.CLIENT_CREDENTIALS)
@@ -44,18 +45,33 @@ class CogniteAuthWrapper implements ICogniteAuthWrapper {
         });
     }
 
-    private async handlePkce(): Promise<string> {
+    private async handlePkce(): Promise<TokenSet> {
         const codeVerifier = generators.codeVerifier();
         const codeChallenge = generators.codeChallenge(codeVerifier);
+        const nonce = generators.nonce();
 
         const authCodeUrl = this.client.authorizationUrl({
             code_challenge: codeChallenge,
             code_challenge_method: 'S256',
+            nonce,
+            response_mode: 'query',
         });
+
+        const { app, server } = await openServerAtPort();
 
         await open(authCodeUrl);
 
-        return authCodeUrl;
+        try {
+            const request = await listenForAuthCode(app);
+
+            return this.client.callback(
+                this.client.metadata.redirect_uris[0],
+                { code: request.code, state: request.state },
+                { code_verifier: codeVerifier, nonce }
+            );
+        } finally {
+            server.close();
+        }
     }
 }
 
