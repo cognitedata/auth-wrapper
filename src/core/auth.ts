@@ -11,7 +11,10 @@ class CogniteAuthWrapper implements ICogniteAuthWrapper {
         this.checkAuthentication = checkAuthentication;
     }
 
+    // eslint-disable-next-line consistent-return
     async login(method: LoginMethod): Promise<TokenSet | null> {
+        if (!Object.values(LoginMethod).includes(method)) return null;
+
         if (method === LoginMethod.pkce) {
             const issuer = await Issuer.discover(this.settings.authority);
             const client = new issuer.Client({
@@ -31,8 +34,6 @@ class CogniteAuthWrapper implements ICogniteAuthWrapper {
                 scope: this.settings.scope,
             });
         }
-
-        return null;
     }
 }
 
