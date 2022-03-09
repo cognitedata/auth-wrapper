@@ -1,3 +1,8 @@
 import CogniteAuthWrapper from './core/auth';
+import {
+    LoginMethods,
+    ISettings,
+    ICogniteAuthWrapper,
+} from './interfaces/common';
 
-export default CogniteAuthWrapper;
+export { LoginMethods, CogniteAuthWrapper, ISettings, ICogniteAuthWrapper };
