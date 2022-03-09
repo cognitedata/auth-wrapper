@@ -8,7 +8,8 @@
     "lib/**/*"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "sample:clientCredentials": "ts-node -r tsconfig-paths/register samples/client_credentials/quickstart.ts"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/cognitedata/cognite-auth-wrapper#readme",
   "devDependencies": {
+    "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",
@@ -32,10 +34,11 @@
     "eslint-plugin-import-helpers": "^1.2.1",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
+    "ts-node": "^10.7.0",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.2"
   },
   "dependencies": {
-    "oidc-client": "^1.11.5"
+    "openid-client": "^5.1.4"
   }
 }
