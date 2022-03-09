@@ -1,6 +1,4 @@
-import { LoginMethod } from 'interfaces/common';
-
-import CogniteAuthWrapper from '../../src/index';
+import { CogniteAuthWrapper, LoginMethods } from '../../src/index';
 
 const settings = {
     authority: process.env.COGNITE_AUTHORITY,
@@ -15,7 +13,7 @@ const settings = {
 const authWrapper = new CogniteAuthWrapper(settings);
 
 authWrapper
-    .login(LoginMethod.pkce)
+    .login('CLIENT_CREDENTIALS')
     .then((result) => {
         console.log(result);
     })
