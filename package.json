@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "sample:clientCredentials": "ts-node -r tsconfig-paths/register samples/client_credentials/quickstart.ts"
+    "sample:clientCredentials": "ts-node -r tsconfig-paths/register samples/client_credentials/quickstart.ts",
+    "sample:pkce": "ts-node -r tsconfig-paths/register samples/pkce/quickstart.ts"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
+    "open": "^8.4.0",
     "openid-client": "^5.1.4"
   }
 }
