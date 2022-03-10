@@ -1,8 +1,13 @@
 import * as express from 'express';
-import { Server } from 'http';
 
-export const openServerAtPort = async () => {
-    return new Promise<{ app: express.Express; server: Server }>((resolve) => {
+import { IRequestResponse, IServer } from '../interfaces/common';
+
+/**
+ * openServerAtPort: Open a new express server at http://localhost:59999.
+ * @returns Promise<IServer>
+ */
+const openServerAtPort = async (): Promise<IServer> => {
+    return new Promise<IServer>((resolve) => {
         const app = express();
 
         const server = app.listen(59999, 'localhost', () => {
@@ -11,16 +16,17 @@ export const openServerAtPort = async () => {
     });
 };
 
-export const listenForAuthCode = async (
+/**
+ * listenForAuthCode: Listen at /callback for idP callbacks.
+ * @param app express.Express
+ * @param field code | id_token
+ * @returns Promise<IRequestResponse>
+ */
+const listenForAuthCode = async (
     app: express.Express,
     field: 'code' | 'id_token'
-) => {
-    return new Promise<{
-        code: string;
-        state: string;
-        id_token?: string;
-        session_state?: string;
-    }>((resolve, reject) => {
+): Promise<IRequestResponse> => {
+    return new Promise<IRequestResponse>((resolve, reject) => {
         // eslint-disable-next-line consistent-return
         app.get('/callback', (req, res) => {
             if (req.query.error) {
@@ -43,16 +49,9 @@ export const listenForAuthCode = async (
             res.end(
                 'You have authenticated successfully! Feel free to close this window.'
             );
-            return resolve(
-                <
-                    {
-                        code: string;
-                        state: string;
-                        id_token?: string;
-                        session_state?: string;
-                    }
-                >req.query
-            );
+            return resolve(<any>req.query);
         });
     });
 };
+
+export { openServerAtPort, listenForAuthCode };

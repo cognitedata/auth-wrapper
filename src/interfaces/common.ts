@@ -1,20 +1,36 @@
-import { TokenSet } from 'openid-client';
-
-enum LoginMethods {
-    CLIENT_CREDENTIALS,
-    PKCE,
-}
+import { AxiosRequestConfig, Method } from 'axios';
+import { Express } from 'express';
+import { Server } from 'http';
 
 interface ISettings {
     authority: string;
     client_id: string;
     client_secret?: string;
-    response_type: string;
-    scope: string;
+    response_type?: string;
+    scope?: string;
 }
 
-interface ICogniteAuthWrapper {
-    login: (method: LoginMethods) => Promise<TokenSet | null | string>;
+interface IRequestData {
+    method: Method;
+    endpoint: string;
+    config?: Omit<AxiosRequestConfig, 'data'>;
+    data?: Pick<AxiosRequestConfig, 'data'>;
 }
 
-export { LoginMethods, ISettings, ICogniteAuthWrapper };
+interface IRequestResponse {
+    code: string;
+    state: string;
+    id_token?: string;
+    session_state?: string;
+}
+
+interface IAuth {
+    login: () => Promise<string>;
+}
+
+interface IServer {
+    app: Express;
+    server: Server;
+}
+
+export { ISettings, IRequestData, IRequestResponse, IAuth, IServer };

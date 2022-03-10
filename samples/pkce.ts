@@ -1,9 +1,4 @@
-import {
-    CogniteAuthWrapper,
-    ICogniteAuthWrapper,
-    ISettings,
-    LoginMethods,
-} from '../src/index';
+import { PkceAuth, IAuth, ISettings } from '../src/index';
 
 const authority = process.env.COGNITE_AUTHORITY;
 const client_id = process.env.COGNITE_CLIENT_ID;
@@ -16,6 +11,7 @@ if (!authority || !client_id || !client_secret || !response_type || !scope)
         'You must set the environment variable COGNITE_AUTHORITY, COGNITE_CLIENT_ID, COGNITE_CLIENT_SECRET, COGNITE_RESPONSE_TYPE and COGNITE_SCOPE'
     );
 
+// Your IdP credentials.
 const settings: ISettings = {
     authority,
     client_id,
@@ -24,10 +20,12 @@ const settings: ISettings = {
     scope,
 };
 
-const authWrapper: ICogniteAuthWrapper = new CogniteAuthWrapper(settings);
+// Instancing PkceAuth class.
+const authWrapper: IAuth = new PkceAuth(settings);
 
+// Retrieving access_token.
 authWrapper
-    .login(LoginMethods.PKCE)
+    .login()
     .then((result) => {
         console.log(result);
     })

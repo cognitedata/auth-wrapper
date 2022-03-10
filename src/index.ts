@@ -1,8 +1,5 @@
-import CogniteAuthWrapper from './core/auth';
-import {
-    LoginMethods,
-    ISettings,
-    ICogniteAuthWrapper,
-} from './interfaces/common';
+import ClientCredentialsAuth from './core/client_credentials';
+import PkceAuth from './core/pkce';
+import { ISettings, IAuth } from './interfaces/common';
 
-export { LoginMethods, CogniteAuthWrapper, ISettings, ICogniteAuthWrapper };
+export { PkceAuth, ClientCredentialsAuth, ISettings, IAuth };
