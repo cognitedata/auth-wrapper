@@ -1,49 +1,19 @@
-import * as open from 'open';
-import { BaseClient, Issuer } from 'openid-client';
+import { createHash, randomBytes } from 'crypto';
 
-import { listenForAuthCode, openServerAtPort } from './core/server';
-import { IRequestResponse, ISettings } from './interfaces/common';
+const base64Url = require('./utils/baseUrl64.js');
 
-/**
- * handleServer: Handle a express server to listen for iDp callback.
- * @param authCodeUrl string
- * @param field code | id_token
- * @returns Promise<IRequestResponse>
- */
-async function handleServer(
-    authCodeUrl: string,
-    field: 'code' | 'id_token'
-): Promise<IRequestResponse> {
-    const { app, server } = await openServerAtPort();
-
-    await open(authCodeUrl);
-
-    try {
-        const request = await listenForAuthCode(app, field);
-
-        return request;
-    } finally {
-        server.close();
-    }
-}
+const random = (bytes = 32) => base64Url.encode(randomBytes(bytes));
 
 /**
- * handleOpenIdClient: Returns a new OpenId Client.
- * @param settings ISettings
- * @returns Promise<BaseClient>
+ * codeChallenge: Code challenge for PKCE.
+ * @param codeVerifier string
+ * @returns string
  */
-async function handleOpenIdClient(settings: ISettings): Promise<BaseClient> {
-    const issuer = await Issuer.discover(settings.authority);
-    return new issuer.Client({
-        client_id: settings.client_id,
-        redirect_uris: ['http://localhost:59999/callback'],
-        ...(settings.client_secret
-            ? { client_secret: settings.client_secret }
-            : {}),
-        ...(settings.response_type
-            ? { response_types: [settings.response_type] }
-            : {}),
-    });
-}
+const codeChallenge = (codeVerifier: string): string =>
+    base64Url.encode(createHash('sha256').update(codeVerifier).digest());
 
-export { handleServer, handleOpenIdClient };
+const state = random();
+const nonce = random();
+const codeVerifier = random();
+
+export { codeChallenge, random, state, nonce, codeVerifier };

@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-import { IRequestResponse, IServer } from '../interfaces/common';
+import { IRequestResponse, IServer } from '../../interfaces/common';
 
 /**
  * openServerAtPort: Open a new express server at http://localhost:59999.
@@ -10,7 +10,7 @@ const openServerAtPort = async (): Promise<IServer> => {
     return new Promise<IServer>((resolve) => {
         const app = express();
 
-        const server = app.listen(59999, 'localhost', () => {
+        const server = app.listen(59999, '0.0.0.0', () => {
             resolve({ app, server });
         });
     });
@@ -23,12 +23,12 @@ const openServerAtPort = async (): Promise<IServer> => {
  * @returns Promise<IRequestResponse>
  */
 const listenForAuthCode = async (
-    app: express.Express,
-    field: 'code' | 'id_token'
+    method: 'get' | 'post',
+    app: express.Express
 ): Promise<IRequestResponse> => {
     return new Promise<IRequestResponse>((resolve, reject) => {
         // eslint-disable-next-line consistent-return
-        app.get('/callback', (req, res) => {
+        app[method]('/callback', (req, res) => {
             if (req.query.error) {
                 res.end(
                     `Something went wrong: ${req.query.error}, description: ${req.query.error_description}`
@@ -36,7 +36,7 @@ const listenForAuthCode = async (
                 return reject(req.query.error);
             }
 
-            const authCode = req.query[field];
+            const authCode = req.query.code;
             if (!authCode) {
                 res.end(
                     `Well thats embarrassing, neither we got an auth code or any error ${JSON.stringify(

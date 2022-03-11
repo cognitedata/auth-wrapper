@@ -1,5 +1,7 @@
-import ClientCredentialsAuth from './core/client_credentials';
-import PkceAuth from './core/pkce';
-import { ISettings, IAuth } from './interfaces/common';
+import ClientCredentialsAuth from './core/auth/client_credentials';
+import ImplicitAuth from './core/auth/implicit';
+import PkceAuth from './core/auth/pkce';
+import { IAuth } from './interfaces/auth';
+import { ISettings } from './interfaces/common';
 
-export { PkceAuth, ClientCredentialsAuth, ISettings, IAuth };
+export { PkceAuth, ClientCredentialsAuth, ImplicitAuth, ISettings, IAuth };

@@ -6,7 +6,6 @@ class ImplicitAuthSample {
         authority: process.env.COGNITE_AUTHORITY,
         client_id: process.env.COGNITE_CLIENT_ID,
         client_secret: process.env.COGNITE_CLIENT_SECRET,
-        response_type: process.env.COGNITE_RESPONSE_TYPE,
         scope: process.env.COGNITE_SCOPE,
     };
 
@@ -15,7 +14,6 @@ class ImplicitAuthSample {
             !this.settings.authority ||
             !this.settings.client_id ||
             !this.settings.client_secret ||
-            !this.settings.response_type ||
             !this.settings.scope
         )
             throw Error(

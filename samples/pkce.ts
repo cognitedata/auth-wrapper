@@ -5,7 +5,6 @@ class PkceSample {
     protected settings: ISettings = {
         authority: process.env.COGNITE_AUTHORITY,
         client_id: process.env.COGNITE_CLIENT_ID,
-        response_type: process.env.COGNITE_RESPONSE_TYPE,
         client_secret: process.env.COGNITE_CLIENT_SECRET,
         scope: process.env.COGNITE_SCOPE,
     };
@@ -14,7 +13,6 @@ class PkceSample {
         if (
             !this.settings.authority ||
             !this.settings.client_id ||
-            !this.settings.response_type ||
             !this.settings.client_secret ||
             !this.settings.scope
         )
