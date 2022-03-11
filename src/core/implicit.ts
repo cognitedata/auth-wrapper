@@ -4,7 +4,7 @@ import { handleOpenIdClient, handleServer } from '../helper';
 import { ISettings } from '../interfaces/common';
 import Auth from './auth';
 
-class PkceAuth extends Auth {
+class ImplicitAuth extends Auth {
     protected settings: ISettings;
 
     /**
@@ -56,4 +56,4 @@ class PkceAuth extends Auth {
     }
 }
 
-export default PkceAuth;
+export default ImplicitAuth;

@@ -10,7 +10,6 @@ class ClientCredentialsAuth extends Auth {
      */
     constructor(settings: ISettings) {
         super(settings);
-        this.settings = settings;
     }
 
     /**

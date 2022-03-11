@@ -1,11 +1,12 @@
-import { ISettings, ClientCredentialsAuth } from '../src/index';
+import { ISettings, ImplicitAuth } from '../src/index';
 
-class ClientCredentialsSample {
+class ImplicitAuthSample {
     // Your IdP credentials.
     protected settings: ISettings = {
         authority: process.env.COGNITE_AUTHORITY,
         client_id: process.env.COGNITE_CLIENT_ID,
         client_secret: process.env.COGNITE_CLIENT_SECRET,
+        response_type: process.env.COGNITE_RESPONSE_TYPE,
         scope: process.env.COGNITE_SCOPE,
     };
 
@@ -14,6 +15,7 @@ class ClientCredentialsSample {
             !this.settings.authority ||
             !this.settings.client_id ||
             !this.settings.client_secret ||
+            !this.settings.response_type ||
             !this.settings.scope
         )
             throw Error(
@@ -21,9 +23,9 @@ class ClientCredentialsSample {
             );
 
         // Retrieving access_token.
-        const result = await ClientCredentialsAuth.load(this.settings).login();
+        const result = await ImplicitAuth.load(this.settings).login();
         console.log(result);
     }
 }
 
-export default new ClientCredentialsSample().load();
+export default new ImplicitAuthSample().load();

@@ -1,32 +1,31 @@
-import { PkceAuth, IAuth, ISettings } from '../src/index';
+import { ISettings, PkceAuth } from '../src/index';
 
-const authority = process.env.COGNITE_AUTHORITY;
-const client_id = process.env.COGNITE_CLIENT_ID;
-const client_secret = process.env.COGNITE_CLIENT_SECRET;
-const response_type = process.env.COGNITE_RESPONSE_TYPE;
-const scope = process.env.COGNITE_SCOPE;
+class PkceSample {
+    // Your IdP credentials.
+    protected settings: ISettings = {
+        authority: process.env.COGNITE_AUTHORITY,
+        client_id: process.env.COGNITE_CLIENT_ID,
+        response_type: process.env.COGNITE_RESPONSE_TYPE,
+        client_secret: process.env.COGNITE_CLIENT_SECRET,
+        scope: process.env.COGNITE_SCOPE,
+    };
 
-if (!authority || !client_id || !client_secret || !response_type || !scope)
-    throw Error(
-        'You must set the environment variable COGNITE_AUTHORITY, COGNITE_CLIENT_ID, COGNITE_CLIENT_SECRET, COGNITE_RESPONSE_TYPE and COGNITE_SCOPE'
-    );
+    async load() {
+        if (
+            !this.settings.authority ||
+            !this.settings.client_id ||
+            !this.settings.response_type ||
+            !this.settings.client_secret ||
+            !this.settings.scope
+        )
+            throw Error(
+                'You must set the environment variable COGNITE_AUTHORITY, COGNITE_CLIENT_ID, COGNITE_CLIENT_SECRET and COGNITE_SCOPE'
+            );
 
-// Your IdP credentials.
-const settings: ISettings = {
-    authority,
-    client_id,
-    client_secret,
-    response_type,
-    scope,
-};
-
-// Instancing PkceAuth class.
-const authWrapper: IAuth = new PkceAuth(settings);
-
-// Retrieving access_token.
-authWrapper
-    .login()
-    .then((result) => {
+        // Retrieving access_token.
+        const result = await PkceAuth.load(this.settings).login();
         console.log(result);
-    })
-    .catch((err) => console.log(err));
+    }
+}
+
+export default new PkceSample().load();
