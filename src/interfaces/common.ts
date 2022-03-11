@@ -6,6 +6,7 @@ interface ISettings {
     client_id: string;
     client_secret?: string;
     response_type?: string;
+    grant_type?: string;
     scope?: string;
 }
 

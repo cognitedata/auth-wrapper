@@ -1,6 +1,6 @@
 import * as open from 'open';
 
-import { nonce } from '../../helper';
+import { nonce, state } from '../../helper';
 import { ISettings } from '../../interfaces/common';
 import { CALLBACK_URL } from '../../utils/utils.json';
 import { listenForAuthCode, openServerAtPort } from '../http/server';
@@ -41,6 +41,7 @@ class ImplicitAuth extends Auth {
                 scope: this.settings.scope,
                 response_type: 'code',
                 redirect_uri: CALLBACK_URL,
+                state,
                 nonce,
             });
 
@@ -49,7 +50,10 @@ class ImplicitAuth extends Auth {
             const { code } = await listenForAuthCode('get', app);
 
             const { access_token } = await client.grant({
-                grant_type: 'authorization_code',
+                grant_type: this.settings.grant_type,
+                ...(this.settings.client_secret
+                    ? { client_secret: this.settings.client_secret }
+                    : {}),
                 code,
             });
 

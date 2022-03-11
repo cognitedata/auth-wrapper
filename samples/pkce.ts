@@ -17,7 +17,7 @@ class PkceSample {
             !this.settings.scope
         )
             throw Error(
-                'You must set the environment variable COGNITE_AUTHORITY, COGNITE_CLIENT_ID, COGNITE_CLIENT_SECRET and COGNITE_SCOPE'
+                'You must set the environment variable COGNITE_AUTHORITY, COGNITE_CLIENT_ID COGNITE_CLIENT_SECRET and COGNITE_SCOPE'
             );
 
         // Retrieving access_token.
