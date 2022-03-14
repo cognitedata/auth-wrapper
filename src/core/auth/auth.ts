@@ -8,7 +8,7 @@ abstract class Auth implements IAuth {
     constructor(protected settings: ISettings) {}
 
     /**
-     * login: Login by selected method.
+     * Login by selected method.
      * @returns Promise<AuthResponse>
      */
     abstract login(): Promise<AuthResponse>;

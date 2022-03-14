@@ -18,7 +18,7 @@ class DeviceAuth extends Auth {
     }
 
     /**
-     * load: Return an instance of DeviceAuth class.
+     * Return an instance of DeviceAuth class.
      * @param settings ISettings
      * @returns new DeviceAuth
      */
@@ -27,17 +27,14 @@ class DeviceAuth extends Auth {
     }
 
     /**
-     * login: Login by Device method and return access_token.
+     * Login by Device method and return access_token.
      * @returns Promise<AuthResponse>
      */
     async login(): Promise<AuthResponse> {
         try {
             const client = new Client(this.settings);
 
-            const verificationCode = await client.deviceAuthorization({
-                client_id: this.settings.client_id,
-                scope: this.settings.scope,
-            });
+            const verificationCode = await client.deviceAuthorization();
 
             console.log('User Code: ', verificationCode.user_code);
             console.log(

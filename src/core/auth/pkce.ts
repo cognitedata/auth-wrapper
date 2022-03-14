@@ -24,7 +24,7 @@ class PkceAuth extends Auth {
     }
 
     /**
-     * load: Return an instance of PkceAuth class.
+     * Return an instance of PkceAuth class.
      * @param settings ISettings
      * @returns new PkceAuth
      */
@@ -33,7 +33,7 @@ class PkceAuth extends Auth {
     }
 
     /**
-     * login: Login by PKCE method and return access_token.
+     * Login by PKCE method and return access_token.
      * @returns Promise<AuthResponse>
      */
     async login(): Promise<AuthResponse> {

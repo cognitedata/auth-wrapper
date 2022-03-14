@@ -6,7 +6,7 @@ abstract class Api implements IAuthRequest {
     constructor(private baseUrl: string) {}
 
     /**
-     * request: Do some request using Axios.
+     * Do some request using Axios.
      * @param method Method
      * @param endpoint string
      * @param config AxiosRequestConfig

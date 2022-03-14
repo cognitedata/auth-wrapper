@@ -6,7 +6,7 @@ class Issuer implements IIssuer {
     constructor(protected issuer: string) {}
 
     /**
-     * init: Return an instance of Issuer class.
+     * Return an instance of Issuer class.
      * @param issuer string
      * @returns new Issuer
      */
@@ -15,7 +15,7 @@ class Issuer implements IIssuer {
     }
 
     /**
-     * discover: Return endpoints and oAuth informations.
+     * Return endpoints and oAuth informations.
      * @returns Promise<IWellKnow>
      */
     async discover(): Promise<IWellKnow> {

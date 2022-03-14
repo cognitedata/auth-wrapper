@@ -19,7 +19,7 @@ class ImplicitAuth extends Auth {
     }
 
     /**
-     * load: Return an instance of ImplicitAuth class.
+     * Return an instance of ImplicitAuth class.
      * @param settings ISettings
      * @returns new ImplicitAuth
      */
@@ -28,7 +28,7 @@ class ImplicitAuth extends Auth {
     }
 
     /**
-     * login: Login by Implicit method and return access_token.
+     * Login by Implicit method and return access_token.
      * @returns Promise<AuthResponse>
      */
     async login(): Promise<AuthResponse> {

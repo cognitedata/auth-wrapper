@@ -80,7 +80,7 @@ interface IClient {
         parameters?: IAuthorizationParameters
     ) => Promise<string>;
     grant: (body: IGrantBody) => Promise<IToken>;
-    deviceAuthorization: (body: IDeviceAuthorize) => Promise<IDeviceResponse>;
+    deviceAuthorization: () => Promise<IDeviceResponse>;
 }
 
 export {

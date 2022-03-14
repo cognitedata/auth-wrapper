@@ -19,7 +19,7 @@ class ClientCredentialsAuth extends Auth {
     }
 
     /**
-     * load: Return an instance of ClientCredentials class.
+     * Return an instance of ClientCredentials class.
      * @param settings ISettings
      * @returns new ClientCredentialsAuth
      */
@@ -28,7 +28,7 @@ class ClientCredentialsAuth extends Auth {
     }
 
     /**
-     * login: Login by Client Credentials method and return access_token.
+     * Login by Client Credentials method and return access_token.
      * @returns Promise<AuthResponse>
      */
     async login(): Promise<AuthResponse> {

@@ -14,7 +14,7 @@ class Request extends Api implements IAuthRequest {
     }
 
     /**
-     * init: Return an instance of Request class.
+     * Return an instance of Request class.
      * @param baseUrl string
      * @returns new Request
      */
@@ -23,7 +23,7 @@ class Request extends Api implements IAuthRequest {
     }
 
     /**
-     * request: Do some request using Axios.
+     * Do some request using Axios.
      * @param method Method
      * @param endpoint string
      * @param config AxiosRequestConfig

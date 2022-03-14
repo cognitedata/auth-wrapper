@@ -5,7 +5,6 @@ import {
     IAuthorizationParameters,
     IToken,
     IGrantBody,
-    IDeviceAuthorize,
     IDeviceResponse,
 } from '../../interfaces/client';
 import { ISettings } from '../../interfaces/common';
@@ -21,7 +20,7 @@ class Client implements IClient {
     }
 
     /**
-     * grant: Generate and return an authorization Url.
+     * Generate and return an authorization Url.
      * @param parameters IAuthorizationParameters
      * @returns Promise<string>
      */
@@ -38,7 +37,7 @@ class Client implements IClient {
     }
 
     /**
-     * grant: Grant access and return token.
+     * Grant access and return token.
      * @param body IGrantBody
      * @returns Promise<IToken>
      */
@@ -77,13 +76,10 @@ class Client implements IClient {
     }
 
     /**
-     * deviceAuthorization: Return device code and verification url.
-     * @param body IDeviceAuthorize
+     * Return device code and verification url.
      * @returns Promise<IDeviceResponse>
      */
-    async deviceAuthorization(
-        body: IDeviceAuthorize
-    ): Promise<IDeviceResponse> {
+    async deviceAuthorization(): Promise<IDeviceResponse> {
         const issuerResponse = await this.issuer.discover();
 
         const { data: codeResponse } = await Request.init(

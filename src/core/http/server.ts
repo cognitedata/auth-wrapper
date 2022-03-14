@@ -4,7 +4,7 @@ import { errorHandling } from '../../helper';
 import { IRequestResponse, IServer } from '../../interfaces/common';
 
 /**
- * openServerAtPort: Open a new express server at http://localhost:59999.
+ * Open a new express server at http://localhost:59999.
  * @returns Promise<IServer | ErrorHandler>
  */
 const openServerAtPort = async (): Promise<IServer> => {
@@ -22,7 +22,7 @@ const openServerAtPort = async (): Promise<IServer> => {
 };
 
 /**
- * listenForAuthCode: Listen at /callback for idP callbacks.
+ * Listen at /callback for idP callbacks.
  * @param app express.Express
  * @param field code | id_token
  * @returns Promise<IRequestResponse>
@@ -31,7 +31,6 @@ const listenForAuthCode = async (
     method: 'get' | 'post',
     app: express.Express
 ): Promise<IRequestResponse> => {
-    // try {
     return new Promise<IRequestResponse>((resolve, reject) => {
         app[method]('/callback', (req, res) => {
             if (req.query.error) {
@@ -57,9 +56,6 @@ const listenForAuthCode = async (
             return resolve(<any>req.query);
         });
     });
-    // } catch (err) {
-    //     errorHandling(err);
-    // }
 };
 
 export { openServerAtPort, listenForAuthCode };

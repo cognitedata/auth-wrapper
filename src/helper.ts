@@ -9,7 +9,7 @@ const base64Url = require('./utils/baseUrl64.js');
 const random = (bytes = 32) => base64Url.encode(randomBytes(bytes));
 
 /**
- * codeChallenge: Code challenge for PKCE.
+ * Code challenge for PKCE.
  * @param codeVerifier string
  * @returns string
  */
@@ -46,6 +46,11 @@ const abortIf = (
     return abort(message, statusCode);
 };
 
+/**
+ * Handle unknow errors
+ * @param errors any
+ * @returns AuthError
+ */
 const errorHandling = (errors: any): AuthError => {
     if (
         errors &&
@@ -68,7 +73,12 @@ const errorHandling = (errors: any): AuthError => {
     return abort(errors);
 };
 
-const deviceField = (issuer: string) => {
+/**
+ * Return device field depending the issuer.
+ * @param issuer string
+ * @returns string
+ */
+const deviceField = (issuer: string): string => {
     if (issuer.includes('microsoft')) return 'code';
 
     return 'device_code';
