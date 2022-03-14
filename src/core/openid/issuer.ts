@@ -19,15 +19,11 @@ class Issuer implements IIssuer {
      * @returns Promise<IWellKnow>
      */
     async discover(): Promise<IWellKnow> {
-        try {
-            const { data: issuerResponse } = await Request.init(
-                this.issuer
-            ).request<unknown, IWellKnow>('GET', DISCOVER);
+        const { data: issuerResponse } = await Request.init(
+            this.issuer
+        ).request<unknown, IWellKnow>('GET', DISCOVER.uri);
 
-            return issuerResponse;
-        } catch (err) {
-            throw err.response.data;
-        }
+        return issuerResponse;
     }
 }
 

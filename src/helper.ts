@@ -1,6 +1,8 @@
 import { createHash, randomBytes } from 'crypto';
 
 import ErrorHandler from './core/errors/handler';
+import { DISCOVER } from './core/openid/endpoints.json';
+import { AuthError } from './interfaces/common';
 
 const base64Url = require('./utils/baseUrl64.js');
 
@@ -25,7 +27,7 @@ const codeVerifier = random();
  * @returns ErrorHandler
  */
 const abort = (message: string, statusCode?: number): ErrorHandler => {
-    throw new ErrorHandler(message, statusCode);
+    throw new ErrorHandler(message, statusCode).getErrors();
 };
 
 /**
@@ -41,8 +43,38 @@ const abortIf = (
     statusCode?: number
 ): ErrorHandler => {
     if (!condition) return;
-    // eslint-disable-next-line consistent-return
     return abort(message, statusCode);
 };
 
-export { codeChallenge, random, state, nonce, codeVerifier, abort, abortIf };
+const errorHandling = (errors: any): AuthError => {
+    if (
+        errors &&
+        errors.response &&
+        (errors.response.data || errors.response.status)
+    ) {
+        if (errors.response.status === 404)
+            return { error: DISCOVER.error_response };
+
+        const { error, error_description } = errors.response.data;
+
+        return {
+            error: {
+                type: error,
+                value: error_description,
+            },
+        };
+    }
+
+    return abort(errors);
+};
+
+export {
+    codeChallenge,
+    random,
+    state,
+    nonce,
+    codeVerifier,
+    abort,
+    abortIf,
+    errorHandling,
+};

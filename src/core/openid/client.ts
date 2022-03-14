@@ -41,38 +41,34 @@ class Client implements IClient {
      * @returns Promise<IToken>
      */
     async grant(body: IGrantBody): Promise<IToken> {
-        try {
-            const issuerResponse = await this.issuer.discover();
+        const issuerResponse = await this.issuer.discover();
 
-            const { data: tokenResponse } = await Request.init(
-                this.settings.authority
-            ).request<string, IToken>(
-                'POST',
-                issuerResponse.token_endpoint,
-                {
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
+        const { data: tokenResponse } = await Request.init(
+            this.settings.authority
+        ).request<string, IToken>(
+            'POST',
+            issuerResponse.token_endpoint,
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                qs.stringify({
-                    grant_type: body.grant_type,
-                    client_id: this.settings.client_id,
-                    scope: this.settings.scope,
-                    redirect_uri: CALLBACK_URL,
-                    ...(body.code_verifier
-                        ? { code_verifier: body.code_verifier }
-                        : {}),
-                    ...(body.code ? { code: body.code } : {}),
-                    ...(this.settings.client_secret
-                        ? { client_secret: this.settings.client_secret }
-                        : {}),
-                })
-            );
+            },
+            qs.stringify({
+                grant_type: body.grant_type,
+                client_id: this.settings.client_id,
+                scope: this.settings.scope,
+                redirect_uri: CALLBACK_URL,
+                ...(body.code_verifier
+                    ? { code_verifier: body.code_verifier }
+                    : {}),
+                ...(body.code ? { code: body.code } : {}),
+                ...(this.settings.client_secret
+                    ? { client_secret: this.settings.client_secret }
+                    : {}),
+            })
+        );
 
-            return tokenResponse;
-        } catch (err) {
-            throw err.response.data.error_description;
-        }
+        return tokenResponse;
     }
 }
 

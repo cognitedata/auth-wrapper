@@ -1,3 +1,5 @@
+import { AuthError } from './common';
+
 interface IWellKnow {
     authorization_endpoint: string;
     device_authorization_endpoint: string;

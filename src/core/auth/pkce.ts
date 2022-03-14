@@ -1,6 +1,12 @@
 import * as open from 'open';
 
-import { codeChallenge, codeVerifier, nonce } from '../../helper';
+import {
+    codeChallenge,
+    codeVerifier,
+    errorHandling,
+    nonce,
+} from '../../helper';
+import { AuthResponse } from '../../interfaces/auth';
 import { ISettings } from '../../interfaces/common';
 import { CALLBACK_URL } from '../../utils/utils.json';
 import { listenForAuthCode, openServerAtPort } from '../http/server';
@@ -28,12 +34,12 @@ class PkceAuth extends Auth {
 
     /**
      * login: Login by PKCE method and return access_token.
-     * @returns Promise<string | undefined>
+     * @returns Promise<AuthResponse>
      */
-    async login(): Promise<string | undefined> {
-        const { app, server } = await openServerAtPort();
-
+    async login(): Promise<AuthResponse> {
         try {
+            const { app, server } = await openServerAtPort();
+
             const client = new Client(this.settings);
 
             const authUrl = await client.authorizationUrl({
@@ -56,9 +62,11 @@ class PkceAuth extends Auth {
                 code,
             });
 
-            return access_token;
-        } finally {
             server.close();
+
+            return access_token;
+        } catch (err: unknown) {
+            return errorHandling(err);
         }
     }
 }

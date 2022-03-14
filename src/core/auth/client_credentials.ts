@@ -1,6 +1,7 @@
 import * as open from 'open';
 
-import { nonce } from '../../helper';
+import { errorHandling, nonce } from '../../helper';
+import { AuthResponse } from '../../interfaces/auth';
 import { ISettings } from '../../interfaces/common';
 import { CALLBACK_URL } from '../../utils/utils.json';
 import { listenForAuthCode, openServerAtPort } from '../http/server';
@@ -28,18 +29,18 @@ class ClientCredentialsAuth extends Auth {
 
     /**
      * login: Login by Client Credentials method and return access_token.
-     * @returns Promise<strin | undefined>g>
+     * @returns Promise<AuthResponse>
      */
-    async login(): Promise<string | undefined> {
-        const client = new Client(this.settings);
+    async login(): Promise<AuthResponse> {
+        try {
+            const client = new Client(this.settings);
 
-        if (
-            this.settings.grant_type &&
-            this.settings.grant_type === 'authorization_code'
-        ) {
-            const { app, server } = await openServerAtPort();
+            if (
+                this.settings.grant_type &&
+                this.settings.grant_type === 'authorization_code'
+            ) {
+                const { app, server } = await openServerAtPort();
 
-            try {
                 const authUrl = await client.authorizationUrl({
                     client_id: this.settings.client_id,
                     scope: this.settings.scope,
@@ -57,17 +58,19 @@ class ClientCredentialsAuth extends Auth {
                     code,
                 });
 
-                return access_token;
-            } finally {
                 server.close();
+
+                return access_token;
             }
+
+            const { access_token } = await client.grant({
+                grant_type: this.settings.grant_type,
+            });
+
+            return access_token;
+        } catch (err: unknown) {
+            return errorHandling(err);
         }
-
-        const { access_token } = await client.grant({
-            grant_type: this.settings.grant_type,
-        });
-
-        return access_token;
     }
 }
 

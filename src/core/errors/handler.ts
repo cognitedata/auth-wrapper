@@ -5,6 +5,7 @@ class ErrorHandler extends Error {
     constructor(message: string, statusCode = 400) {
         super('exception');
         this.message = this.extractMessage(message);
+        console.log(this.extractMessage(message));
         this.statusCode = statusCode;
     }
 
@@ -25,11 +26,11 @@ class ErrorHandler extends Error {
         return this.message;
     }
 
-    private extractMessage(message: unknown): string {
+    private extractMessage(message: any): string {
         if (typeof message === 'string') return message;
 
         if (typeof message === 'object')
-            return Object.values(message).join(' ');
+            return `[${message.name}] ${message.message}`;
 
         return 'message format does not supported';
     }

@@ -1,7 +1,11 @@
 import { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
+import { AuthError } from './common';
+
+type AuthResponse = string | AuthError | undefined;
+
 interface IAuth {
-    login: () => Promise<string | undefined>;
+    login: () => Promise<AuthResponse>;
 }
 
 interface IAuthRequest {
@@ -13,4 +17,4 @@ interface IAuthRequest {
     ): Promise<AxiosResponse<U>>;
 }
 
-export { IAuth, IAuthRequest };
+export { IAuth, IAuthRequest, AuthResponse };

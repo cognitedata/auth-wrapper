@@ -1,6 +1,7 @@
 import * as open from 'open';
 
-import { nonce, state } from '../../helper';
+import { errorHandling, nonce, state } from '../../helper';
+import { AuthResponse } from '../../interfaces/auth';
 import { ISettings } from '../../interfaces/common';
 import { CALLBACK_URL } from '../../utils/utils.json';
 import { listenForAuthCode, openServerAtPort } from '../http/server';
@@ -28,12 +29,12 @@ class ImplicitAuth extends Auth {
 
     /**
      * login: Login by Implicit method and return access_token.
-     * @returns Promise<string | undefined>
+     * @returns Promise<AuthResponse>
      */
-    async login(): Promise<string | undefined> {
-        const { app, server } = await openServerAtPort();
-
+    async login(): Promise<AuthResponse> {
         try {
+            const { app, server } = await openServerAtPort();
+
             const client = new Client(this.settings);
 
             const authUrl = await client.authorizationUrl({
@@ -57,9 +58,11 @@ class ImplicitAuth extends Auth {
                 code,
             });
 
-            return access_token;
-        } finally {
             server.close();
+
+            return access_token;
+        } catch (err: unknown) {
+            return errorHandling(err);
         }
     }
 }

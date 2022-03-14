@@ -1,6 +1,8 @@
 import { Express } from 'express';
 import { Server } from 'http';
 
+import ErrorHandler from '../core/errors/handler';
+
 interface ISettings {
     authority: string;
     client_id: string;
@@ -22,4 +24,13 @@ interface IServer {
     server: Server;
 }
 
-export { ISettings, IRequestResponse, IServer };
+interface IOpenIdError {
+    error: {
+        type: string;
+        value: string;
+    };
+}
+
+type AuthError = IOpenIdError | ErrorHandler;
+
+export { ISettings, IRequestResponse, IServer, AuthError };

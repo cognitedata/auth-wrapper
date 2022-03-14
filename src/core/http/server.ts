@@ -1,19 +1,24 @@
 import * as express from 'express';
 
+import { errorHandling } from '../../helper';
 import { IRequestResponse, IServer } from '../../interfaces/common';
 
 /**
  * openServerAtPort: Open a new express server at http://localhost:59999.
- * @returns Promise<IServer>
+ * @returns Promise<IServer | ErrorHandler>
  */
 const openServerAtPort = async (): Promise<IServer> => {
-    return new Promise<IServer>((resolve) => {
-        const app = express();
+    try {
+        return new Promise<IServer>((resolve) => {
+            const app = express();
 
-        const server = app.listen(59999, '0.0.0.0', () => {
-            resolve({ app, server });
+            const server = app.listen(59999, '0.0.0.0', () => {
+                resolve({ app, server });
+            });
         });
-    });
+    } catch (err: unknown) {
+        errorHandling(err);
+    }
 };
 
 /**
@@ -26,8 +31,8 @@ const listenForAuthCode = async (
     method: 'get' | 'post',
     app: express.Express
 ): Promise<IRequestResponse> => {
+    // try {
     return new Promise<IRequestResponse>((resolve, reject) => {
-        // eslint-disable-next-line consistent-return
         app[method]('/callback', (req, res) => {
             if (req.query.error) {
                 res.end(
@@ -52,6 +57,9 @@ const listenForAuthCode = async (
             return resolve(<any>req.query);
         });
     });
+    // } catch (err) {
+    //     errorHandling(err);
+    // }
 };
 
 export { openServerAtPort, listenForAuthCode };

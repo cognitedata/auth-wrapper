@@ -1,4 +1,4 @@
-import { IAuth } from '../../interfaces/auth';
+import { AuthResponse, IAuth } from '../../interfaces/auth';
 import { ISettings } from '../../interfaces/common';
 
 abstract class Auth implements IAuth {
@@ -9,9 +9,9 @@ abstract class Auth implements IAuth {
 
     /**
      * login: Login by selected method.
-     * @returns Promise<string | undefined>
+     * @returns Promise<AuthResponse>
      */
-    abstract login(): Promise<string | undefined>;
+    abstract login(): Promise<AuthResponse>;
 }
 
 export default Auth;
