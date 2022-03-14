@@ -15,7 +15,7 @@ class Request extends Api implements IAuthRequest {
 
     /**
      * init: Return an instance of Request class.
-     * @param baseUrl
+     * @param baseUrl string
      * @returns new Request
      */
     static init(baseUrl: string) {

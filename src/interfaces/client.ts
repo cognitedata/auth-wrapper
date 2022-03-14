@@ -61,11 +61,33 @@ interface IAuthorizationParameters {
     [key: string]: unknown;
 }
 
+interface IDeviceAuthorize {
+    client_id: string;
+    scope: string;
+}
+
+interface IDeviceResponse {
+    device_code: string;
+    user_code: string;
+    expires_in: number;
+    interval: number;
+    verification_uri: string;
+    verification_url?: string;
+}
+
 interface IClient {
     authorizationUrl: (
         parameters?: IAuthorizationParameters
     ) => Promise<string>;
     grant: (body: IGrantBody) => Promise<IToken>;
+    deviceAuthorization: (body: IDeviceAuthorize) => Promise<IDeviceResponse>;
 }
 
-export { IToken, IGrantBody, IClient, IAuthorizationParameters };
+export {
+    IToken,
+    IGrantBody,
+    IClient,
+    IAuthorizationParameters,
+    IDeviceAuthorize,
+    IDeviceResponse,
+};

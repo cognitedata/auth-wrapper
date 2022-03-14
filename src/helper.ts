@@ -68,7 +68,14 @@ const errorHandling = (errors: any): AuthError => {
     return abort(errors);
 };
 
+const deviceField = (issuer: string) => {
+    if (issuer.includes('microsoft')) return 'code';
+
+    return 'device_code';
+};
+
 export {
+    deviceField,
     codeChallenge,
     random,
     state,
