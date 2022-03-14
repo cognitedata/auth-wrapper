@@ -1,3 +1,4 @@
+import issuerMock from '../__mocks__/issuer.mock';
 import { IWellKnow } from '../../interfaces/issuer';
 import Request from '../../providers/request';
 
@@ -5,10 +6,10 @@ describe('Testing providers/request.ts', () => {
     test('should return 200 and validate issuer field', async () => {
         expect.assertions(2);
         const { data: wellknowResponse, status } = await Request.init(
-            'https://accounts.google.com'
+            issuerMock.issuers[0].url
         ).request<unknown, IWellKnow>(
             'GET',
-            '.well-known/openid-configuration',
+            issuerMock.issuers[0].paths.config,
             {
                 headers: {
                     'Content-Type': 'application/json',
