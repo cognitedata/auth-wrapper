@@ -42,7 +42,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
                 `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
             )
             .reply(200, {
-                token_endpoint: `/oauth2/token`,
+                token_endpoint: '/oauth2/token',
             });
 
         // Mocking Token URL call
