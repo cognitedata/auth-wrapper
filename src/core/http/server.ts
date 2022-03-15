@@ -28,6 +28,9 @@ const listenForAuthCode = async (
     app: express.Express
 ): Promise<IRequestResponse> => {
     return new Promise<IRequestResponse>((resolve, reject) => {
+        if (process.env.NODE_ENV === 'test')
+            resolve({ code: '123', state: '123' });
+
         app[method]('/callback', (req, res) => {
             if (req.query.error) {
                 res.end(
