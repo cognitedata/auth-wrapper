@@ -1,4 +1,4 @@
-import { DISCOVER } from '../../core/openid/endpoints.json';
+import { DISCOVER, INVALID } from '../../core/openid/endpoints.json';
 import {
     abort,
     abortIf,
@@ -49,6 +49,18 @@ describe('Testing helper.ts', () => {
                 error: {
                     type: DISCOVER.error_response.type,
                     value: DISCOVER.error_response.value,
+                },
+            });
+        });
+
+        test('should return issuer_problems error object cause code ECONNREFUSED', () => {
+            expect.assertions(1);
+            expect(
+                errorHandling({ ...errorStatusMock, code: 'ECONNREFUSED' })
+            ).toEqual({
+                error: {
+                    type: INVALID.error_response.type,
+                    value: INVALID.error_response.value,
                 },
             });
         });

@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from 'crypto';
 
 import ErrorHandler from './core/errors/handler';
-import { DISCOVER } from './core/openid/endpoints.json';
+import { DISCOVER, INVALID } from './core/openid/endpoints.json';
 import { AuthError } from './interfaces/common';
 
 const base64Url = require('./utils/baseUrl64.js');
@@ -52,6 +52,9 @@ const abortIf = (
  * @returns AuthError
  */
 const errorHandling = (errors: any): AuthError => {
+    if (errors.code && errors.code === 'ECONNREFUSED')
+        return { error: INVALID.error_response };
+
     if (
         errors &&
         errors.response &&

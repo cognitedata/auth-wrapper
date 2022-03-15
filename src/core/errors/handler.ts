@@ -5,7 +5,6 @@ class ErrorHandler extends Error {
     constructor(message: string, statusCode = 400) {
         super('exception');
         this.message = this.extractMessage(message);
-        console.log(this.extractMessage(message));
         this.statusCode = statusCode;
     }
 
