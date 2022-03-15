@@ -55,4 +55,12 @@ describe('Testing error handling functions', () => {
             throw new ErrorHandler(Number(30), errorCode);
         }).toThrow('message format does not supported');
     });
+
+    test('expect return message format does not supported when call ErrorHandler', () => {
+        // @ts-ignore
+        const error = new ErrorHandler(Number(30), errorCode);
+
+        expect(String(error)).toBe('Error: message format does not supported');
+        expect.assertions(1);
+    });
 });

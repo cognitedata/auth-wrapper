@@ -16,7 +16,7 @@
     "sample:pkce": "ts-node -r tsconfig-paths/register samples/pkce.ts",
     "sample:device": "ts-node -r tsconfig-paths/register samples/device.ts",
     "sample:implicit": "ts-node -r tsconfig-paths/register samples/implicit.ts",
-    "test": "jest --silent"
+    "test": "jest --silent --runInBand"
   },
   "repository": {
     "type": "git",

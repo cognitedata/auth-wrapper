@@ -14,7 +14,7 @@ describe('Testing core/http/server.ts', () => {
             family: 'IPv4',
             port: 59999,
         });
-        server.close();
+        return server.close();
     });
 
     test('should return code passing by route', async () => {
@@ -35,7 +35,7 @@ describe('Testing core/http/server.ts', () => {
         });
         // @ts-ignore
         expect(promises[1].value.code).toBe('123');
-        server.close();
+        return server.close();
     });
 
     test('should return error when listen for callback with error object', async () => {
@@ -60,7 +60,7 @@ describe('Testing core/http/server.ts', () => {
         expect(promises[0].value.text).toBe(
             'Something went wrong: testing, description: testing'
         );
-        server.close();
+        return server.close();
     });
 
     test('should return error when listen for callback without code param', async () => {
@@ -83,6 +83,6 @@ describe('Testing core/http/server.ts', () => {
         expect(promises[0].value.text).toBe(
             'Well thats embarrassing, neither we got an auth code or any error {}'
         );
-        server.close();
+        return server.close();
     });
 });

@@ -15,6 +15,14 @@ describe('Testing core/auth/device.ts', () => {
         scope: issuerMock.issuers[0].scope,
     };
 
+    beforeAll(() => {
+        process.env.NODE_ENV = 'test';
+    });
+
+    beforeEach(() => {
+        nock.cleanAll();
+    });
+
     test('should return access_token', async () => {
         expect.assertions(1);
 

@@ -2,16 +2,16 @@ import * as nock from 'nock';
 
 import clientMock from '../../__mocks__/client.mock';
 import issuerMock from '../../__mocks__/issuer.mock';
-import ClientCredentialsAuth from '../../../core/auth/client_credentials';
+import ImplicitAuth from '../../../core/auth/implicit';
 import { INVALID, DISCOVER } from '../../../core/openid/endpoints.json';
 import { ISettings } from '../../../interfaces/common';
 
-describe('Testing core/auth/client_credentials.ts', () => {
+describe('Testing core/auth/implicit.ts', () => {
     const settings: ISettings = {
         authority: `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         client_id: issuerMock.issuers[0].client_id,
         client_secret: issuerMock.issuers[0].client_secret,
-        grant_type: 'client_credentials',
+        grant_type: 'authorization_code',
         scope: issuerMock.issuers[0].scope,
     };
 
@@ -21,13 +21,6 @@ describe('Testing core/auth/client_credentials.ts', () => {
 
     beforeEach(() => {
         nock.cleanAll();
-    });
-
-    test('should return access_token', async () => {
-        expect.assertions(1);
-
-        const access_token = await ClientCredentialsAuth.load(settings).login();
-        return expect(typeof access_token).toBe('string');
     });
 
     test('should return access_token with grant_type = authorization_code', async () => {
@@ -58,7 +51,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await ClientCredentialsAuth.load({
+        const access_token = await ImplicitAuth.load({
             ...settings,
             grant_type: 'authorization_code',
         }).login();
@@ -69,7 +62,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         expect.assertions(1);
 
         return expect(
-            await ClientCredentialsAuth.load({
+            await ImplicitAuth.load({
                 ...settings,
                 authority: 'wrong_authority',
                 grant_type: 'authorization_code',
@@ -81,7 +74,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         expect.assertions(1);
 
         return expect(
-            await ClientCredentialsAuth.load({
+            await ImplicitAuth.load({
                 ...settings,
                 authority: 'https://google.com',
                 grant_type: 'authorization_code',
