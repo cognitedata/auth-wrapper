@@ -12,6 +12,7 @@ export default {
         'src/utils/utils.json',
         'src/core/openid/endpoints.json',
         'src/core/http/server.ts',
+        'src/__tests__/__mocks__',
     ],
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
