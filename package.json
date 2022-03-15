@@ -33,6 +33,7 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
+    "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
     "eslint": "^8.9.0",
@@ -54,6 +55,7 @@
     "express": "^4.17.3",
     "open": "^8.4.0",
     "qs": "^6.10.3",
+    "supertest": "^6.2.2",
     "ts-jest": "^27.1.3"
   }
 }

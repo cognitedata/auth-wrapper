@@ -8,17 +8,13 @@ import { IRequestResponse, IServer } from '../../interfaces/common';
  * @returns Promise<IServer | ErrorHandler>
  */
 const openServerAtPort = async (): Promise<IServer> => {
-    try {
-        return new Promise<IServer>((resolve) => {
-            const app = express();
+    return new Promise<IServer>((resolve) => {
+        const app = express();
 
-            const server = app.listen(59999, '0.0.0.0', () => {
-                resolve({ app, server });
-            });
+        const server = app.listen(59999, '0.0.0.0', () => {
+            resolve({ app, server });
         });
-    } catch (err: unknown) {
-        errorHandling(err);
-    }
+    });
 };
 
 /**
