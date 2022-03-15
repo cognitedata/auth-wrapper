@@ -4,7 +4,9 @@ import Issuer from '../../../core/openid/issuer';
 describe('Testing core/openid/issuer.ts', () => {
     test('should return valid issuer response', async () => {
         expect.assertions(3);
-        const issuer = Issuer.init(issuerMock.issuers[0].url);
+        const issuer = Issuer.init(
+            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`
+        );
         const issuerResponse = await issuer.discover();
 
         expect(issuerResponse.issuer).toBeDefined();
