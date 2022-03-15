@@ -25,6 +25,16 @@ describe('Testing core/openid/client.ts', () => {
         expect(authUrl).toEqual(mockUrl);
     });
 
+    it('should return empty when call client.authorizationUrl()', async () => {
+        expect.assertions(3);
+
+        const authUrl = await client.authorizationUrl();
+
+        expect(authUrl).toBeDefined();
+        expect(authUrl).toBe('');
+        expect(typeof authUrl).toBe('string');
+    });
+
     test('should return authorization IToken object when call client.grant()', async () => {
         expect.assertions(3);
 
@@ -53,12 +63,16 @@ describe('Testing core/openid/client.ts', () => {
 
     test('should return authorization testing string when call client.poll()', async () => {
         expect.assertions(3);
+        let counter = 0;
 
         const promise = await client.poll<Promise<string>>(
-            async () =>
-                new Promise((resolve) => {
+            async () => {
+                counter += 1;
+                return new Promise((resolve, reject) => {
+                    if (counter === 1) reject();
                     resolve('testing');
-                }),
+                });
+            },
             1000,
             1000
         );
@@ -66,5 +80,26 @@ describe('Testing core/openid/client.ts', () => {
         expect(promise).toBeDefined();
         expect(promise).toBe('testing');
         expect(typeof promise).toBe('string');
+    });
+
+    test('should return throw error when call client.poll()', async () => {
+        expect.assertions(1);
+        let counter = 0;
+
+        const throwThis = async () => {
+            await client.poll<Promise<string>>(
+                async () => {
+                    counter += 1;
+                    return new Promise((resolve, reject) => {
+                        if (counter > 3) resolve('testing');
+                        reject(Error('testing'));
+                    });
+                },
+                1,
+                1000
+            );
+        };
+
+        await expect(throwThis).rejects.toThrow('testing');
     });
 });
