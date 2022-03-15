@@ -122,7 +122,8 @@ class Client implements IClient {
         return Promise.resolve()
             .then(fn)
             .catch(function retry(err) {
-                if (retries >= 0)
+                // eslint-disable-next-line no-param-reassign, no-plusplus
+                if (retries-- > 0)
                     return delay(timeoutBetweenAttempts).then(fn).catch(retry);
                 throw err;
             });
