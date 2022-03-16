@@ -32,6 +32,7 @@ class ClientCredentialsAuth extends Auth {
      * @returns Promise<AuthResponse>
      */
     async login(): Promise<AuthResponse> {
+        const { app, server } = await openServerAtPort();
         try {
             const client = new Client(this.settings);
 
@@ -39,8 +40,6 @@ class ClientCredentialsAuth extends Auth {
                 this.settings.grant_type &&
                 this.settings.grant_type === 'authorization_code'
             ) {
-                const { app, server } = await openServerAtPort();
-
                 const authUrl = await client.authorizationUrl({
                     client_id: this.settings.client_id,
                     scope: this.settings.scope,
@@ -58,8 +57,6 @@ class ClientCredentialsAuth extends Auth {
                     code,
                 });
 
-                server.close();
-
                 return access_token;
             }
 
@@ -70,6 +67,8 @@ class ClientCredentialsAuth extends Auth {
             return access_token;
         } catch (err: unknown) {
             return errorHandling(err);
+        } finally {
+            server.close();
         }
     }
 }

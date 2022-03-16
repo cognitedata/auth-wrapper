@@ -1,4 +1,4 @@
-import { DISCOVER } from '../../core/openid/endpoints.json';
+import { DISCOVER, INVALID } from '../../core/openid/endpoints.json';
 import {
     abort,
     abortIf,
@@ -10,6 +10,7 @@ import {
     random,
     state,
 } from '../../helper';
+import base64 from '../../utils/base64';
 
 describe('Testing helper.ts', () => {
     describe('Testing deviceField()', () => {
@@ -39,6 +40,7 @@ describe('Testing helper.ts', () => {
 
         const errorStatusMock = {
             response: {
+                data: '',
                 status: 404,
             },
         };
@@ -46,9 +48,18 @@ describe('Testing helper.ts', () => {
         test('should return issuer_problems error object', () => {
             expect.assertions(1);
             expect(errorHandling(errorStatusMock)).toEqual({
+                error: DISCOVER.error_response,
+            });
+        });
+
+        test('should return issuer_problems error object cause code ECONNREFUSED', () => {
+            expect.assertions(1);
+            expect(
+                errorHandling({ ...errorStatusMock, code: 'ECONNREFUSED' })
+            ).toEqual({
                 error: {
-                    type: DISCOVER.error_response.type,
-                    value: DISCOVER.error_response.value,
+                    type: INVALID.error_response.type,
+                    value: INVALID.error_response.value,
                 },
             });
         });
@@ -61,6 +72,11 @@ describe('Testing helper.ts', () => {
                     value: 'Custom error just for test.',
                 },
             });
+        });
+
+        test('should call abort() when call errorHandling()', () => {
+            expect.assertions(1);
+            expect(() => errorHandling(new Error('testing'))).toThrow('');
         });
     });
 
@@ -89,20 +105,48 @@ describe('Testing helper.ts', () => {
             expect.assertions(1);
             expect(typeof state).toBe('string');
         });
+
+        test('should return string calling base64.fromBase64()', () => {
+            expect.assertions(1);
+            expect(
+                typeof base64.fromBase64(
+                    Buffer.from('testing').toString('base64')
+                )
+            ).toBe('string');
+        });
+
+        test('should encode and decode a string with encode() and decode() functions', () => {
+            expect.assertions(4);
+
+            const originalString = 'testing';
+            const encodedString = base64.encode(originalString);
+            const decodedString = base64.decode(encodedString);
+
+            expect(typeof encodedString).toBe('string');
+            expect(
+                String(originalString) === String(encodedString)
+            ).toBeFalsy();
+            expect(String(encodedString) === String(decodedString)).toBeFalsy();
+            expect(
+                String(originalString) === String(decodedString)
+            ).toBeTruthy();
+        });
     });
 
     describe('Testing Errorhandler calling abort and abortIf', () => {
         test('should be name and message define when call abort()', () => {
-            expect.assertions(2);
-            expect(() => abort('testing', 409).name).toBeDefined();
-            expect(() => abort('testing', 409).message).toBeDefined();
+            expect.assertions(1);
+            expect(() => abort('testing', 409)).toThrow('');
         });
 
         test('should be name and message define when call abort()', () => {
-            expect.assertions(3);
-            expect(() => abortIf(true, 'testing', 409).name).toBeDefined();
-            expect(() => abortIf(true, 'testing', 409).message).toBeDefined();
-            expect(abortIf(false, 'testing', 409)).toBeUndefined();
+            expect.assertions(1);
+            expect(() => abortIf(true, 'testing', 409)).toThrow();
+        });
+
+        test('should be name and message define when call abort()', () => {
+            expect.assertions(1);
+            expect(abortIf(false, 'testing', 409)).toBe(undefined);
         });
     });
 });

@@ -32,9 +32,8 @@ class ImplicitAuth extends Auth {
      * @returns Promise<AuthResponse>
      */
     async login(): Promise<AuthResponse> {
+        const { app, server } = await openServerAtPort();
         try {
-            const { app, server } = await openServerAtPort();
-
             const client = new Client(this.settings);
 
             const authUrl = await client.authorizationUrl({
@@ -58,11 +57,11 @@ class ImplicitAuth extends Auth {
                 code,
             });
 
-            server.close();
-
             return access_token;
         } catch (err: unknown) {
             return errorHandling(err);
+        } finally {
+            server.close();
         }
     }
 }

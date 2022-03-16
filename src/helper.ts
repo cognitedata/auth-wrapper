@@ -1,12 +1,11 @@
 import { createHash, randomBytes } from 'crypto';
 
 import ErrorHandler from './core/errors/handler';
-import { DISCOVER } from './core/openid/endpoints.json';
+import { DISCOVER, INVALID } from './core/openid/endpoints.json';
 import { AuthError } from './interfaces/common';
+import base64 from './utils/base64';
 
-const base64Url = require('./utils/baseUrl64.js');
-
-const random = (bytes = 32) => base64Url.encode(randomBytes(bytes));
+const random = (bytes = 32) => base64.encode(randomBytes(bytes));
 
 /**
  * Code challenge for PKCE.
@@ -14,7 +13,7 @@ const random = (bytes = 32) => base64Url.encode(randomBytes(bytes));
  * @returns string
  */
 const codeChallenge = (codeVerifier: string): string =>
-    base64Url.encode(createHash('sha256').update(codeVerifier).digest());
+    base64.encode(createHash('sha256').update(codeVerifier).digest());
 
 const state = random();
 const nonce = random();
@@ -52,6 +51,9 @@ const abortIf = (
  * @returns AuthError
  */
 const errorHandling = (errors: any): AuthError => {
+    if (errors.code && errors.code === 'ECONNREFUSED')
+        return { error: INVALID.error_response };
+
     if (
         errors &&
         errors.response &&

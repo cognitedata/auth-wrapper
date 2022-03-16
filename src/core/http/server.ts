@@ -8,17 +8,13 @@ import { IRequestResponse, IServer } from '../../interfaces/common';
  * @returns Promise<IServer | ErrorHandler>
  */
 const openServerAtPort = async (): Promise<IServer> => {
-    try {
-        return new Promise<IServer>((resolve) => {
-            const app = express();
+    return new Promise<IServer>((resolve) => {
+        const app = express();
 
-            const server = app.listen(59999, '0.0.0.0', () => {
-                resolve({ app, server });
-            });
+        const server = app.listen(59999, '0.0.0.0', () => {
+            resolve({ app, server });
         });
-    } catch (err: unknown) {
-        errorHandling(err);
-    }
+    });
 };
 
 /**
@@ -32,6 +28,9 @@ const listenForAuthCode = async (
     app: express.Express
 ): Promise<IRequestResponse> => {
     return new Promise<IRequestResponse>((resolve, reject) => {
+        if (process.env.NODE_ENV === 'test')
+            resolve({ code: '123', state: '123' });
+
         app[method]('/callback', (req, res) => {
             if (req.query.error) {
                 res.end(
