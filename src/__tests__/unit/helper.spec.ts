@@ -40,6 +40,7 @@ describe('Testing helper.ts', () => {
 
         const errorStatusMock = {
             response: {
+                data: '',
                 status: 404,
             },
         };
@@ -47,10 +48,7 @@ describe('Testing helper.ts', () => {
         test('should return issuer_problems error object', () => {
             expect.assertions(1);
             expect(errorHandling(errorStatusMock)).toEqual({
-                error: {
-                    type: DISCOVER.error_response.type,
-                    value: DISCOVER.error_response.value,
-                },
+                error: DISCOVER.error_response,
             });
         });
 
@@ -144,6 +142,11 @@ describe('Testing helper.ts', () => {
         test('should be name and message define when call abort()', () => {
             expect.assertions(1);
             expect(() => abortIf(true, 'testing', 409)).toThrow();
+        });
+
+        test('should be name and message define when call abort()', () => {
+            expect.assertions(1);
+            expect(abortIf(false, 'testing', 409)).toBe(undefined);
         });
     });
 });

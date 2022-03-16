@@ -28,16 +28,25 @@ describe('Testing providers/request.ts', () => {
             `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`
         ).request<unknown, IWellKnow>(
             'GET',
-            issuerMock.issuers[0].paths.config,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                params: {},
-            }
+            issuerMock.issuers[0].paths.config
         );
 
         expect(wellknowResponse.issuer).toBeDefined();
         expect(status).toBe(200);
+    });
+
+    test('should return status === 200 and validate issuer field without params but with data', async () => {
+        expect.assertions(2);
+        const { status } = await Request.init(
+            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`
+        ).request<unknown, IWellKnow>(
+            'POST',
+            issuerMock.issuers[0].paths.config,
+            {},
+            { testing: 123 }
+        );
+
+        expect(status).toBeDefined();
+        expect(status === 200).toBeTruthy();
     });
 });

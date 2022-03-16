@@ -25,7 +25,7 @@ class ErrorHandler extends Error {
         return this.message;
     }
 
-    private extractMessage(message: any): string {
+    extractMessage(message: any): string {
         if (typeof message === 'string') return message;
 
         if (typeof message === 'object')

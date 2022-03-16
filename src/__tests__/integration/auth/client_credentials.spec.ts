@@ -27,7 +27,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         expect.assertions(1);
 
         const access_token = await ClientCredentialsAuth.load(settings).login();
-        return expect(typeof access_token).toBe('string');
+        expect(typeof access_token).toBe('string');
     });
 
     test('should return access_token with grant_type = authorization_code', async () => {
@@ -62,13 +62,13 @@ describe('Testing core/auth/client_credentials.ts', () => {
             ...settings,
             grant_type: 'authorization_code',
         }).login();
-        return expect(typeof access_token).toBe('string');
+        expect(typeof access_token).toBe('string');
     });
 
     test('should throw error cause invalid uri', async () => {
         expect.assertions(1);
 
-        return expect(
+        expect(
             await ClientCredentialsAuth.load({
                 ...settings,
                 authority: 'wrong_authority',
@@ -80,7 +80,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
     test('should throw error cause invalid pattern uri', async () => {
         expect.assertions(1);
 
-        return expect(
+        expect(
             await ClientCredentialsAuth.load({
                 ...settings,
                 authority: 'https://google.com',
