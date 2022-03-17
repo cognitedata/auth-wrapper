@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-tests:
+  codecov:
     runs-on: ubuntu-latest
     env:
       COGNITE_AUTHORITY: ${{secrets.COGNITE_AUTHORITY}}
