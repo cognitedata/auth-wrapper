@@ -15,7 +15,7 @@ export default {
     ],
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
-    coverageReporters: ['text-summary', 'text', 'lcov'],
+    coverageReporters: ['text-summary', 'text', 'lcov', 'cobertura'],
     coverageThreshold: {
         global: {
             lines: 95,
