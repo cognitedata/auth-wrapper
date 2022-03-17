@@ -16,7 +16,7 @@
     "sample:pkce": "ts-node -r tsconfig-paths/register samples/pkce.ts",
     "sample:device": "ts-node -r tsconfig-paths/register samples/device.ts",
     "sample:implicit": "ts-node -r tsconfig-paths/register samples/implicit.ts",
-    "test": "jest --silent --runInBand"
+    "test": "jest --silent --runInBand --coverage"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.12.0",
     "@typescript-eslint/parser": "^5.12.0",
+    "codecov": "^3.8.3",
     "eslint": "^8.9.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.4.0",

@@ -15,7 +15,7 @@ import base64 from '../../utils/base64';
 describe('Testing helper.ts', () => {
     describe('Testing deviceField()', () => {
         test('should return code, cause issuer is micosoft', () => {
-            expect.assertions(1);
+            expect.assertions(2);
             expect(deviceField('https://login.microsoftonline.com/')).toBe(
                 'code'
             );
@@ -148,5 +148,11 @@ describe('Testing helper.ts', () => {
             expect.assertions(1);
             expect(abortIf(false, 'testing', 409)).toBe(undefined);
         });
+    });
+
+    describe('should return []', () => {
+        expect.assertions(1);
+
+        expect(() => errorHandling(Number(3001))).toThrow(Array);
     });
 });

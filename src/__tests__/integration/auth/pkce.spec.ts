@@ -19,7 +19,7 @@ describe('Testing core/auth/pkce.ts', () => {
         process.env.NODE_ENV = 'test';
     });
 
-    beforeEach(() => {
+    afterEach(() => {
         nock.cleanAll();
     });
 
@@ -80,5 +80,26 @@ describe('Testing core/auth/pkce.ts', () => {
                 grant_type: 'authorization_code',
             }).login()
         ).toMatchObject({ error: DISCOVER.error_response });
+    });
+
+    test('should throw error cause received error from well know endpoint', async () => {
+        expect.assertions(1);
+
+        // Mocking authorize URL call for discover step
+        nock(issuerMock.issuers[0].url)
+            .get(
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+            )
+            .reply(400, {
+                error: 'testing_error',
+                error_description: 'just for testing',
+            });
+
+        expect(await PkceAuth.load(settings).login()).toMatchObject({
+            error: {
+                type: 'testing_error',
+                value: 'just for testing',
+            },
+        });
     });
 });

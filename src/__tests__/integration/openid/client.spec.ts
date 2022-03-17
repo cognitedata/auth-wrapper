@@ -19,11 +19,11 @@ describe('Testing core/openid/client.ts', () => {
         process.env.NODE_ENV = 'test';
     });
 
-    beforeEach(() => {
+    afterEach(() => {
         nock.cleanAll();
     });
 
-    it('should return authorization url when call client.authorizationUrl()', async () => {
+    test('should return authorization url when call client.authorizationUrl()', async () => {
         expect.assertions(3);
 
         const authUrl = await client.authorizationUrl({
@@ -36,7 +36,7 @@ describe('Testing core/openid/client.ts', () => {
         expect(authUrl).toEqual(mockUrl);
     });
 
-    it('should return empty when call client.authorizationUrl()', async () => {
+    test('should return empty when call client.authorizationUrl()', async () => {
         expect.assertions(3);
 
         const authUrl = await client.authorizationUrl();
