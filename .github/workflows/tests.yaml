@@ -6,8 +6,13 @@ on:
       - main
 
 jobs:
-  codecov:
+  tests:
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x]
 
     env:
       COGNITE_AUTHORITY: ${{secrets.COGNITE_AUTHORITY}}
@@ -16,9 +21,6 @@ jobs:
       COGNITE_CLIENT_SECRET: ${{secrets.COGNITE_CLIENT_SECRET}}
       COGNITE_GRANT_TYPE: ${{secrets.COGNITE_GRANT_TYPE}}
       COGNITE_SCOPE: ${{secrets.COGNITE_SCOPE}}
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x]
 
     steps:
       - name: Checkout repository
@@ -38,7 +40,7 @@ jobs:
       - name: Running tests
         run: npm test
 
-    - name: Upload coverage to Codecov
+      - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+            token: ${{ secrets.CODECOV_TOKEN }}
