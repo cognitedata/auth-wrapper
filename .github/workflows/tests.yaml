@@ -41,4 +41,4 @@ jobs:
         run: npm test
 
       - name: Upload coverage to Codecov
-        run: npm run cov --token=${{ secrets.CODECOV_TOKEN }}
+        run: npm run cov --disable=gcov --token="${{ secrets.CODECOV_TOKEN }}""
