@@ -1,13 +1,14 @@
 name: Tests and Coverage
 
 on:
-  pull_request:
+ pull_request:
     branches:
       - main
 
 jobs:
   codecov:
     runs-on: ubuntu-latest
+
     env:
       COGNITE_AUTHORITY: ${{secrets.COGNITE_AUTHORITY}}
       COGNITE_AZURE_TENANT_ID: ${{secrets.COGNITE_AZURE_TENANT_ID}}
