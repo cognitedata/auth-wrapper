@@ -1,8 +1,14 @@
+import * as nock from 'nock';
+
 import issuerMock from '../__mocks__/issuer.mock';
 import { IWellKnow } from '../../interfaces/issuer';
 import Request from '../../providers/request';
 
 describe('Testing providers/request.ts', () => {
+    afterEach(() => {
+        nock.cleanAll();
+    });
+
     test('should return 200 and validate issuer field', async () => {
         expect.assertions(2);
         const { data: wellknowResponse, status } = await Request.init(
@@ -14,7 +20,6 @@ describe('Testing providers/request.ts', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                params: { testing: true },
             }
         );
 
