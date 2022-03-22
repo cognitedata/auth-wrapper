@@ -12,6 +12,10 @@ The `@cognitedata/auth-wrapper` is an OpenID Connect/OAuth 2.0 Wrapper library w
 
 ## Samples
 
+There are small bare-bones typescript projects in the `samples/` directory.
+They show how to include to retrieve a token with cognite Auth Wrapper by different methods.
+The samples' [README.md](./samples/README.md) has instructions for running the samples.
+
 ### Contributing
 
 Contributions welcome!
