@@ -9,8 +9,14 @@
 The `@cognitedata/auth-wrapper` is an OpenID Connect/OAuth 2.0 Wrapper library written in js that provides a convenient way to retrieve access token from any IdP that meets the openid pattern. You can use on client-side or server-side with JavaScript applications.
 
 ## Getting Started
+There are some guides to help you to start using any of our available authentication methods.
+The guides are at [authentication.md](./guides/authentication.md).
 
 ## Samples
+
+There are small bare-bones typescript projects in the `samples/` directory.
+They show how to include to retrieve a token with cognite Auth Wrapper by different methods.
+The samples' [README.md](./samples/README.md) has instructions for running the samples.
 
 ### Contributing
 
