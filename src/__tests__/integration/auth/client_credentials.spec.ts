@@ -25,7 +25,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
     });
 
     test('should return access_token', async () => {
-        expect.assertions(1);
+        expect.assertions(4);
 
         // Mocking authorize URL call for discover step
         // nock(issuerMock.issuers[0].url)
@@ -41,12 +41,18 @@ describe('Testing core/auth/client_credentials.ts', () => {
         //     .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
         //     .reply(200, clientMock.token);
 
-        const access_token = await ClientCredentialsAuth.load(settings).login();
-        expect(typeof access_token).toBe('string');
+        const grantResponse = await ClientCredentialsAuth.load(
+            settings
+        ).login();
+
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
     });
 
     test('should return access_token with grant_type = authorization_code', async () => {
-        expect.assertions(1);
+        expect.assertions(4);
 
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
@@ -71,11 +77,15 @@ describe('Testing core/auth/client_credentials.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await ClientCredentialsAuth.load({
+        const grantResponse = await ClientCredentialsAuth.load({
             ...settings,
             grant_type: 'authorization_code',
         }).login();
-        expect(typeof access_token).toBe('string');
+
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
     });
 
     test('should throw error cause invalid uri', async () => {

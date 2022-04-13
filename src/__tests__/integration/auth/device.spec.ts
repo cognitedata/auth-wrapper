@@ -24,7 +24,7 @@ describe('Testing core/auth/device.ts', () => {
     });
 
     test('should return access_token', async () => {
-        expect.assertions(1);
+        expect.assertions(6);
 
         // Mocking wellknow URL call for discover deviceAuthorization
         nock(issuerMock.issuers[0].url)
@@ -58,12 +58,17 @@ describe('Testing core/auth/device.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await DeviceAuth.load(settings).login();
-        expect(typeof access_token).toBe('string');
+        const grantResponse = await DeviceAuth.load(settings).login();
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
+        expect(grantResponse).toHaveProperty('refresh_token');
+        expect(grantResponse).toHaveProperty('scope');
     });
 
     test('should return access_token without client_secret', async () => {
-        expect.assertions(1);
+        expect.assertions(6);
 
         // Mocking wellknow URL call for discover deviceAuthorization
         nock(issuerMock.issuers[0].url)
@@ -97,11 +102,17 @@ describe('Testing core/auth/device.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await DeviceAuth.load({
+        const grantResponse = await DeviceAuth.load({
             ...settings,
             client_secret: '',
         }).login();
-        expect(typeof access_token).toBe('string');
+
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
+        expect(grantResponse).toHaveProperty('refresh_token');
+        expect(grantResponse).toHaveProperty('scope');
     });
 
     test('should throw error cause invalid uri', async () => {
