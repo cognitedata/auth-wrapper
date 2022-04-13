@@ -32,6 +32,7 @@ class DeviceAuth extends Auth {
      */
     async login(): Promise<AuthResponse> {
         try {
+            this.settings.scope = `${this.settings.scope} offline_access`;
             const client = new Client(this.settings);
 
             const verificationCode = await client.deviceAuthorization();
@@ -56,13 +57,13 @@ class DeviceAuth extends Auth {
             params[deviceField(this.settings.authority)] =
                 verificationCode.device_code;
 
-            const { access_token } = await client.poll<Promise<IToken>>(
+            const grantResponse = await client.poll<Promise<IToken>>(
                 async () => client.grant(params),
                 1000,
                 1000
             );
 
-            return access_token;
+            return grantResponse;
         } catch (err: unknown) {
             return errorHandling(err);
         }

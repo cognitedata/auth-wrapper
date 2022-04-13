@@ -43,7 +43,7 @@ class PkceAuth extends Auth {
 
             const authUrl = await client.authorizationUrl({
                 client_id: this.settings.client_id,
-                scope: this.settings.scope,
+                scope: `${this.settings.scope} offline_access`,
                 response_type: 'code',
                 redirect_uri: CALLBACK_URL,
                 code_challenge: codeChallenge(codeVerifier),
@@ -55,13 +55,13 @@ class PkceAuth extends Auth {
 
             const { code } = await listenForAuthCode('get', app);
 
-            const { access_token } = await client.grant({
+            const grantResponse = await client.grant({
                 grant_type: 'authorization_code',
                 code_verifier: codeVerifier,
                 code,
             });
 
-            return access_token;
+            return grantResponse;
         } catch (err: unknown) {
             return errorHandling(err);
         } finally {
