@@ -1,8 +1,9 @@
 import { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
+import { IToken } from './client';
 import { AuthError } from './common';
 
-type AuthResponse = string | AuthError | undefined;
+type AuthResponse = string | IToken | AuthError | undefined;
 
 interface IAuth {
     login: () => Promise<AuthResponse>;
