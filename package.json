@@ -14,7 +14,9 @@
     "build": "tsc",
     "sample:credentials": "ts-node -r tsconfig-paths/register samples/client_credentials.ts",
     "sample:pkce": "ts-node -r tsconfig-paths/register samples/pkce.ts",
+    "sample:pkcewrefresh": "ts-node -r tsconfig-paths/register samples/pkce_w_refresh.ts",
     "sample:device": "ts-node -r tsconfig-paths/register samples/device.ts",
+    "sample:devicewrefresh": "ts-node -r tsconfig-paths/register samples/device_w_refresh.ts",
     "sample:implicit": "ts-node -r tsconfig-paths/register samples/implicit.ts",
     "test": "jest --silent --runInBand --coverage"
   },

@@ -1,4 +1,5 @@
 import { ISettings, PkceAuth } from '../src/index';
+import { AuthResponse } from '../src/interfaces/auth';
 
 class PkceSample {
     // Your IdP credentials.
@@ -19,8 +20,17 @@ class PkceSample {
             );
 
         // Retrieving access_token.
-        const result = await PkceAuth.load(this.settings).login();
-        console.log(result);
+        const tokenResponse: AuthResponse = await PkceAuth.load(
+            this.settings
+        ).login();
+
+        // Retrieving token with previous refresh_token
+        const refreshedTokenResponse = await PkceAuth.load(this.settings).login(
+            // @ts-ignore
+            tokenResponse?.refresh_token
+        );
+
+        console.log(refreshedTokenResponse);
     }
 }
 

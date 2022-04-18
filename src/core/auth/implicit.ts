@@ -49,7 +49,7 @@ class ImplicitAuth extends Auth {
 
             const { code } = await listenForAuthCode('get', app);
 
-            const { access_token } = await client.grant({
+            const grantResponse = await client.grant({
                 grant_type: this.settings.grant_type,
                 ...(this.settings.client_secret
                     ? { client_secret: this.settings.client_secret }
@@ -57,7 +57,7 @@ class ImplicitAuth extends Auth {
                 code,
             });
 
-            return access_token;
+            return grantResponse;
         } catch (err: unknown) {
             return errorHandling(err);
         } finally {
