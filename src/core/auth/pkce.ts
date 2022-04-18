@@ -34,38 +34,54 @@ class PkceAuth extends Auth {
 
     /**
      * Login by PKCE method and return access_token.
+     * @param refresh_token? string
      * @returns Promise<AuthResponse>
      */
-    async login(): Promise<AuthResponse> {
-        const { app, server } = await openServerAtPort();
+    async login(refresh_token?: string): Promise<AuthResponse> {
+        if (!refresh_token) {
+            const { app, server } = await openServerAtPort();
+            try {
+                const client = new Client(this.settings);
+
+                const authUrl = await client.authorizationUrl({
+                    client_id: this.settings.client_id,
+                    scope: `${this.settings.scope} offline_access`,
+                    response_type: 'code',
+                    redirect_uri: CALLBACK_URL,
+                    code_challenge: codeChallenge(codeVerifier),
+                    code_challenge_method: 'S256',
+                    nonce,
+                });
+
+                await open(authUrl);
+
+                const { code } = await listenForAuthCode('get', app);
+
+                const grantResponse = await client.grant({
+                    grant_type: 'authorization_code',
+                    code_verifier: codeVerifier,
+                    code,
+                });
+
+                return grantResponse;
+            } catch (err: unknown) {
+                return errorHandling(err);
+            } finally {
+                server.close();
+            }
+        }
+
         try {
             const client = new Client(this.settings);
 
-            const authUrl = await client.authorizationUrl({
-                client_id: this.settings.client_id,
-                scope: `${this.settings.scope} offline_access`,
-                response_type: 'code',
-                redirect_uri: CALLBACK_URL,
-                code_challenge: codeChallenge(codeVerifier),
-                code_challenge_method: 'S256',
-                nonce,
-            });
-
-            await open(authUrl);
-
-            const { code } = await listenForAuthCode('get', app);
-
             const grantResponse = await client.grant({
-                grant_type: 'authorization_code',
-                code_verifier: codeVerifier,
-                code,
+                grant_type: 'refresh_token',
+                refresh_token,
             });
 
             return grantResponse;
         } catch (err: unknown) {
             return errorHandling(err);
-        } finally {
-            server.close();
         }
     }
 }

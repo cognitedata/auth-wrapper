@@ -9,9 +9,10 @@ abstract class Auth implements IAuth {
 
     /**
      * Login by selected method.
+     * @param refresh_token? string
      * @returns Promise<AuthResponse>
      */
-    abstract login(): Promise<AuthResponse>;
+    abstract login(refresh_token?: string): Promise<AuthResponse>;
 }
 
 export default Auth;

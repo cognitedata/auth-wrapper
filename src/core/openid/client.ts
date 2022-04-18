@@ -61,6 +61,9 @@ class Client implements IClient {
                 ...(!body.grant_type.includes('device_code')
                     ? { redirect_uri: CALLBACK_URL }
                     : {}),
+                ...(body.refresh_token
+                    ? { refresh_token: body.refresh_token }
+                    : {}),
                 ...(body.code_verifier
                     ? { code_verifier: body.code_verifier }
                     : {}),
