@@ -8,5 +8,6 @@ export default {
         scope: 'offline_access',
         resource: '00000002-0000-0000-c000-000000000000',
         access_token: 'token here',
+        refresh_token: 'refresh token here',
     },
 };
