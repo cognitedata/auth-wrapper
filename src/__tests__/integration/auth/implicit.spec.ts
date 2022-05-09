@@ -24,7 +24,7 @@ describe('Testing core/auth/implicit.ts', () => {
     });
 
     test('should return access_token with grant_type = authorization_code', async () => {
-        expect.assertions(1);
+        expect.assertions(4);
 
         const tenant = `/${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`;
 
@@ -51,15 +51,19 @@ describe('Testing core/auth/implicit.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await ImplicitAuth.load({
+        const grantResponse = await ImplicitAuth.load({
             ...settings,
             grant_type: 'authorization_code',
         }).login();
-        expect(typeof access_token).toBe('string');
+
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
     });
 
     test('should return access_token without client_secret', async () => {
-        expect.assertions(1);
+        expect.assertions(4);
 
         const tenant = `/${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`;
 
@@ -86,12 +90,16 @@ describe('Testing core/auth/implicit.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await ImplicitAuth.load({
+        const grantResponse = await ImplicitAuth.load({
             ...settings,
             grant_type: 'authorization_code',
             client_secret: null,
         }).login();
-        expect(typeof access_token).toBe('string');
+
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
     });
 
     test('should throw error cause invalid uri', async () => {

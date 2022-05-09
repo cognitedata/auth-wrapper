@@ -24,7 +24,7 @@ describe('Testing core/auth/pkce.ts', () => {
     });
 
     test('should return access_token with grant_type = authorization_code', async () => {
-        expect.assertions(1);
+        expect.assertions(6);
 
         const tenant = `/${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`;
 
@@ -51,11 +51,17 @@ describe('Testing core/auth/pkce.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const access_token = await PkceAuth.load({
+        const grantResponse = await PkceAuth.load({
             ...settings,
             grant_type: 'authorization_code',
         }).login();
-        expect(typeof access_token).toBe('string');
+
+        expect(grantResponse).toHaveProperty('token_type');
+        expect(grantResponse).toHaveProperty('expires_in');
+        expect(grantResponse).toHaveProperty('ext_expires_in');
+        expect(grantResponse).toHaveProperty('access_token');
+        expect(grantResponse).toHaveProperty('refresh_token');
+        expect(grantResponse).toHaveProperty('scope');
     });
 
     test('should throw error cause invalid uri', async () => {

@@ -52,19 +52,19 @@ class ClientCredentialsAuth extends Auth {
 
                 const { code } = await listenForAuthCode('get', app);
 
-                const { access_token } = await client.grant({
+                const grantResponse = await client.grant({
                     grant_type: this.settings.grant_type,
                     code,
                 });
 
-                return access_token;
+                return grantResponse;
             }
 
-            const { access_token } = await client.grant({
+            const grantResponse = await client.grant({
                 grant_type: this.settings.grant_type,
             });
 
-            return access_token;
+            return grantResponse;
         } catch (err: unknown) {
             return errorHandling(err);
         } finally {

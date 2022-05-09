@@ -5,7 +5,7 @@
 JS SDK Examples
 ==========================
 
-This folder contains examples on how to use the Auth WRapper with different authentication methods.
+This folder contains examples on how to use the Auth Wrapper with different authentication methods.
 
 ## Prerequisites
 
@@ -17,6 +17,6 @@ This folder contains examples on how to use the Auth WRapper with different auth
 ## Examples
 
   - [Typescript using Client Credentials Flow](./client_credentials.ts)
-  - [Typescript using client Device Grant Flow](./device.ts)
-  - [Typescript using client Implicit Flow](./implicit.ts)
-  - [Typescript using client PKCE Flow](./pkce.ts)
+  - [Typescript using Client Device Grant Flow](./device.ts)
+  - [Typescript using Client Implicit Flow](./implicit.ts)
+  - [Typescript using Client PKCE Flow](./pkce.ts)
