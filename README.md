@@ -2,11 +2,11 @@
     <img src="./cognite_logo.png" alt="Cognite logo" title="Cognite" align="right" height="80" />
 </a>
 
-# @cognitedata/auth-wrapper
+# @cognite/auth-wrapper
 
 [![codecov](https://codecov.io/gh/cognitedata/auth-wrapper/branch/main/graph/badge.svg?token=3dhnnL5sHo)](https://codecov.io/gh/cognitedata/auth-wrapper)
 
-The `@cognitedata/auth-wrapper` is an OpenID Connect/OAuth 2.0 Wrapper library written in js that provides a convenient way to retrieve access token from any IdP that meets the openid pattern. You can use on client-side or server-side with JavaScript applications.
+The `@cognite/auth-wrapper` is an OpenID Connect/OAuth 2.0 Wrapper library written in js that provides a convenient way to retrieve access token from any IdP that meets the openid pattern. You can use on client-side or server-side with JavaScript applications.
 
 ## Getting Started
 There are some guides to help you to start using any of our available authentication methods.
