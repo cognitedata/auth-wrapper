@@ -1,7 +1,6 @@
 // Copyright 2022 Cognite AS
 import * as express from 'express';
 
-import { errorHandling } from '../../helper';
 import { IRequestResponse, IServer } from '../../interfaces/common';
 
 /**
