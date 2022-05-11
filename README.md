@@ -18,6 +18,10 @@ There are small bare-bones typescript projects in the `samples/` directory.
 They show how to include to retrieve a token with cognite Auth Wrapper by different methods.
 The samples' [README.md](./samples/README.md) has instructions for running the samples.
 
+## License
+
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
 ### Contributing
 
 Contributions welcome!
@@ -37,6 +41,9 @@ npm test
 ```
 
 We use `jest` to run tests, see [their documentation](https://github.com/facebook/jest) for more information.
+
+## Changelog
+Wondering about upcoming or previous changes to the auth-wrapper? Take a look at the [CHANGELOG](./CHANGELOG.md).
 
 ### Versioning
 
