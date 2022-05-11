@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import * as nock from 'nock';
 
 import issuerMock from '../__mocks__/issuer.mock';

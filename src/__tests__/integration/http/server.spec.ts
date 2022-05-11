@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import * as request from 'supertest';
 
 import { openServerAtPort, listenForAuthCode } from '../../../core/http/server';

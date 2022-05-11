@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { Express } from 'express';
 import { Server } from 'http';
 

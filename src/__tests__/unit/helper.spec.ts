@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { DISCOVER, INVALID } from '../../core/openid/endpoints.json';
 import {
     abort,

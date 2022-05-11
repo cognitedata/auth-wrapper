@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { createHash, randomBytes } from 'crypto';
 
 import ErrorHandler from './core/errors/handler';

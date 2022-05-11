@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { IIssuer, IWellKnow } from '../../interfaces/issuer';
 import Request from '../../providers/request';
 import { DISCOVER } from './endpoints.json';

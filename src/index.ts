@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import ClientCredentialsAuth from './core/auth/client_credentials';
 import DeviceAuth from './core/auth/device';
 import ImplicitAuth from './core/auth/implicit';

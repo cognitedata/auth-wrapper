@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { ISettings, ImplicitAuth } from '../src/index';
 
 class ImplicitAuthSample {

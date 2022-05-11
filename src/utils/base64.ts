@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 const fromBase64 = (base64) =>
     base64.replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 

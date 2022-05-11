@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { ISettings, PkceAuth } from '../src/index';
 
 class PkceSample {

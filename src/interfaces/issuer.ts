@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 interface IWellKnow {
     authorization_endpoint: string;
     device_authorization_endpoint: string;
