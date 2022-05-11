@@ -34,11 +34,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Installing dependencies
+      - name: Installing dependencies 🔧
         run: npm install
 
-      - name: Running tests
+      - name: Running tests 🚀
         run: npm test
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage to Codecov 🚀
         run: ./node_modules/.bin/codecov --disable=gcov --token=${{secrets.CODECOV_TOKEN}}
