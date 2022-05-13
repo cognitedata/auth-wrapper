@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
 import { IToken } from './client';

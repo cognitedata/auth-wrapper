@@ -18,9 +18,17 @@
     "plugins": [
         "@typescript-eslint",
         "eslint-plugin-import-helpers",
+        "header",
         "prettier"
     ],
     "rules": {
+        "header/header": [2, "line",
+            [{
+                "pattern": " Copyright \\d{4} Cognite AS",
+                "template": " Copyright 2022 Cognite AS"
+            }]
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
         "consistent-return": "off",
         "no-underscore-dangle": "off",
         "@typescript-eslint/ban-ts-comment": "off",

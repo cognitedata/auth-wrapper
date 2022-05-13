@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { ISettings, DeviceAuth } from '../src/index';
 
 class DeviceSample {

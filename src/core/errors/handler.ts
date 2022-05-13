@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 class ErrorHandler extends Error {
     protected statusCode: number;
     protected errors: unknown[] = [];

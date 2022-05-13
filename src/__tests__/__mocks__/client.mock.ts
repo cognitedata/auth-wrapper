@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 export default {
     token: {
         token_type: 'Bearer',

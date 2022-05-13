@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import * as open from 'open';
 
 import { errorHandling, nonce, state } from '../../helper';

@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import { AuthResponse, IAuth } from '../../interfaces/auth';
 import { ISettings } from '../../interfaces/common';
 

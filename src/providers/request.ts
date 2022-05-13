@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import axios, { Axios, AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
 import { IAuthRequest } from '../interfaces/auth';

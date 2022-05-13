@@ -1,3 +1,4 @@
+// Copyright 2022 Cognite AS
 import ErrorHandler from '../../core/errors/handler';
 
 describe('Testing error handling functions', () => {
