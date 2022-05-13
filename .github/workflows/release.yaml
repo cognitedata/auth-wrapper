@@ -33,7 +33,7 @@ jobs:
         run: npm install
 
       - name: Build package 🔧
-        run: npm test
+        run: npm run build
 
       - name: Release 🚀
         run: npx semantic-release
