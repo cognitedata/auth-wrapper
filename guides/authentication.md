@@ -17,17 +17,18 @@
 Aggregating asset:
 
 ```ts
-import { ISettings, ClientCredentialsAuth } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
 
-const settings: ISettings = {
-    authority: 'your_authority',
-    client_id: 'your_client_id',
-    grant_type: 'your_grant_type',
-    client_secret: 'your_client_secret',
-    scope: 'your_scope'
-};
-
-const token = await ClientCredentialsAuth.load(settings).login();
+const token = await CogniteAuthWrapper.load(
+    'client_credentials',
+    {
+        authority: 'your_authority',
+        client_id: 'your_client_id',
+        grant_type: 'your_grant_type',
+        client_secret: 'your_client_secret',
+        scope: 'your_scope'
+    }
+).login();
 ```
 
 # Device Flow
@@ -49,16 +50,17 @@ const token = await ClientCredentialsAuth.load(settings).login();
 Aggregating asset:
 
 ```ts
-import { ISettings, DeviceAuth } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
 
-const settings: ISettings = {
-    authority: 'your_authority',
-    client_id: 'your_client_id',
-    client_secret: 'your_client_secret',
-    scope: 'your_scope'
-};
-
-const token = await DeviceAuth.load(settings).login();
+const token = await CogniteAuthWrapper.load(
+    'device'
+    {
+        authority: 'your_authority',
+        client_id: 'your_client_id',
+        client_secret: 'your_client_secret',
+        scope: 'your_scope'
+    }
+).login();
 ```
 
 # Device w Refresh Token Flow
@@ -80,9 +82,9 @@ const token = await DeviceAuth.load(settings).login();
 Aggregating asset:
 
 ```ts
-import { ISettings, DeviceAuth } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
 
-const settings: ISettings = {
+const settings = {
     authority: 'your_authority',
     client_id: 'your_client_id',
     client_secret: 'your_client_secret',
@@ -90,11 +92,15 @@ const settings: ISettings = {
 };
 
 // Retrieving access_token.
-const tokenResponse = await DeviceAuth.load(this.settings).login();
+const tokenResponse = await CogniteAuthWrapper.load(
+    'device',
+    settings
+).login();
 
 // Retrieving token with previous refresh_token
-const refreshedTokenResponse = await DeviceAuth.load(
-    this.settings
+const refreshedTokenResponse = await CogniteAuthWrapper.load(
+    'device',
+    settings
 ).login(tokenResponse?.refresh_token);
 ```
 
@@ -117,17 +123,18 @@ const refreshedTokenResponse = await DeviceAuth.load(
 Aggregating asset:
 
 ```ts
-import { ISettings, ImplicitAuth } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
 
-const settings: ISettings = {
-    authority: 'your_authority',
-    client_id: 'your_client_id',
-    grant_type: 'your_grant_type',
-    client_secret: 'your_client_secret',
-    scope: 'your_scope'
-};
-
-const token = await ImplicitAuth.load(settings).login();
+const token = await CogniteAuthWrapper.load(
+    'implicit',
+    {
+        authority: 'your_authority',
+        client_id: 'your_client_id',
+        grant_type: 'your_grant_type',
+        client_secret: 'your_client_secret',
+        scope: 'your_scope'
+    }
+).login();
 ```
 
 # PKCE Flow
@@ -149,16 +156,17 @@ const token = await ImplicitAuth.load(settings).login();
 Aggregating asset:
 
 ```ts
-import { ISettings, PkceAuth } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
 
-const settings: ISettings = {
-    authority: 'your_authority',
-    client_id: 'your_client_id',
-    client_secret: 'your_client_secret',
-    scope: 'your_scope'
-};
-
-const token = await PkceAuth.load(settings).login();
+const token = await CogniteAuthWrapper.load(
+    'pkce',
+    {
+        authority: 'your_authority',
+        client_id: 'your_client_id',
+        client_secret: 'your_client_secret',
+        scope: 'your_scope'
+    }
+).login();
 ```
 
 # PKCE w Refresh Token Flow
@@ -180,9 +188,9 @@ const token = await PkceAuth.load(settings).login();
 Aggregating asset:
 
 ```ts
-import { ISettings, PkceAuth } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
 
-const settings: ISettings = {
+const settings = {
     authority: 'your_authority',
     client_id: 'your_client_id',
     client_id: 'your_client_id',
@@ -191,11 +199,14 @@ const settings: ISettings = {
 };
 
 // Retrieving access_token.
-const tokenResponse: AuthResponse = await PkceAuth.load(
-    this.settings
+const tokenResponse = await CogniteAuthWrapper.load(
+    'pkce',
+    settings
 ).login();
 
 // Retrieving token with previous refresh_token
-const refreshedTokenResponse = await PkceAuth.load(this.settings)
-    .login(tokenResponse?.refresh_token);
+const refreshedTokenResponse = await CogniteAuthWrapper.load(
+    'pkce',
+    settings
+).login(tokenResponse?.refresh_token);
 ```
