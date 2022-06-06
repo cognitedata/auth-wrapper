@@ -5,7 +5,6 @@ class DeviceSample {
     protected settings = {
         authority: process.env.COGNITE_AUTHORITY,
         client_id: process.env.COGNITE_CLIENT_ID,
-        client_secret: process.env.COGNITE_CLIENT_SECRET,
         scope: process.env.COGNITE_SCOPE,
     };
 
@@ -19,7 +18,6 @@ class DeviceSample {
         ).login();
 
         // Retrieving token with previous refresh_token
-        delete this.settings.client_secret;
         const refreshedTokenResponse = await CogniteAuthWrapper.load(
             method,
             this.settings,

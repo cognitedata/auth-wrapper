@@ -26,14 +26,14 @@ class Client implements IClient {
      * @returns Promise<string>
      */
     async authorizationUrl(
-        parameters?: IAuthorizationParameters
+        parameters?: IAuthorizationParameters,
     ): Promise<string> {
         if (!parameters) return '';
 
         const issuerResponse = await this.issuer.discover();
 
         return `${issuerResponse.authorization_endpoint}?${qs.stringify(
-            parameters
+            parameters,
         )}`;
     }
 
@@ -46,7 +46,7 @@ class Client implements IClient {
         const issuerResponse = await this.issuer.discover();
 
         const { data: tokenResponse } = await Request.init(
-            this.settings.authority
+            this.settings.authority,
         ).request<string, IToken>(
             'POST',
             issuerResponse.token_endpoint,
@@ -73,7 +73,7 @@ class Client implements IClient {
                 ...(this.settings.client_secret
                     ? { client_secret: this.settings.client_secret }
                     : {}),
-            })
+            }),
         );
 
         return tokenResponse;
@@ -87,7 +87,7 @@ class Client implements IClient {
         const issuerResponse = await this.issuer.discover();
 
         const { data: codeResponse } = await Request.init(
-            this.settings.authority
+            this.settings.authority,
         ).request<unknown, IDeviceResponse>(
             'POST',
             issuerResponse.device_authorization_endpoint,
@@ -99,7 +99,7 @@ class Client implements IClient {
             qs.stringify({
                 client_id: this.settings.client_id,
                 scope: this.settings.scope,
-            })
+            }),
         );
 
         if (codeResponse.verification_url)
@@ -118,10 +118,10 @@ class Client implements IClient {
     async poll<T = any>(
         fn: () => T,
         retries = Infinity,
-        timeoutBetweenAttempts = 5000
+        timeoutBetweenAttempts = 5000,
     ): Promise<T> {
         // eslint-disable-next-line no-promise-executor-return
-        const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
         return Promise.resolve()
             .then(fn)

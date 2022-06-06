@@ -7,7 +7,6 @@ class DeviceSample {
         const result = await CogniteAuthWrapper.load('device', {
             authority: process.env.COGNITE_AUTHORITY,
             client_id: process.env.COGNITE_CLIENT_ID,
-            client_secret: process.env.COGNITE_CLIENT_SECRET,
             scope: process.env.COGNITE_SCOPE,
         }).login();
 

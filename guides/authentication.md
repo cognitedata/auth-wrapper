@@ -57,7 +57,6 @@ const token = await CogniteAuthWrapper.load(
     {
         authority: 'your_authority',
         client_id: 'your_client_id',
-        client_secret: 'your_client_secret',
         scope: 'your_scope'
     }
 ).login();
@@ -87,7 +86,6 @@ import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 const settings = {
     authority: 'your_authority',
     client_id: 'your_client_id',
-    client_secret: 'your_client_secret',
     scope: 'your_scope'
 };
 
@@ -130,8 +128,6 @@ const token = await CogniteAuthWrapper.load(
     {
         authority: 'your_authority',
         client_id: 'your_client_id',
-        grant_type: 'your_grant_type',
-        client_secret: 'your_client_secret',
         scope: 'your_scope'
     }
 ).login();
@@ -163,7 +159,6 @@ const token = await CogniteAuthWrapper.load(
     {
         authority: 'your_authority',
         client_id: 'your_client_id',
-        client_secret: 'your_client_secret',
         scope: 'your_scope'
     }
 ).login();
@@ -193,8 +188,6 @@ import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 const settings = {
     authority: 'your_authority',
     client_id: 'your_client_id',
-    client_id: 'your_client_id',
-    client_secret: 'your_client_secret',
     scope: 'your_scope'
 };
 
