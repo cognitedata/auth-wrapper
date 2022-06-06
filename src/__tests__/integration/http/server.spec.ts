@@ -59,7 +59,7 @@ describe('Testing core/http/server.ts', () => {
         });
         // @ts-ignore
         expect(promises[0].value.text).toBe(
-            'Something went wrong: testing, description: testing'
+            'Something went wrong: testing, description: testing',
         );
         return server.close();
     });
@@ -82,7 +82,7 @@ describe('Testing core/http/server.ts', () => {
         });
         // @ts-ignore
         expect(promises[0].value.text).toBe(
-            'Well thats embarrassing, neither we got an auth code or any error {}'
+            'Well thats embarrassing, neither we got an auth code or any error {}',
         );
         return server.close();
     });

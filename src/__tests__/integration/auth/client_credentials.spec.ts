@@ -43,7 +43,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         //     .reply(200, clientMock.token);
 
         const grantResponse = await ClientCredentialsAuth.load(
-            settings
+            settings,
         ).login();
 
         expect(grantResponse).toHaveProperty('token_type');
@@ -58,7 +58,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 authorization_endpoint: `${tenant}/oauth2/v2.0/authorize`,
@@ -67,7 +67,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         // Mocking authorize URL call for grant step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -97,7 +97,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
                 ...settings,
                 authority: 'wrong_authority',
                 grant_type: 'authorization_code',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: INVALID.error_response });
     });
 
@@ -109,7 +109,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
                 ...settings,
                 authority: 'https://google.com',
                 grant_type: 'authorization_code',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: DISCOVER.error_response });
     });
 
@@ -119,7 +119,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(400, {
                 error: 'testing_error',
@@ -127,7 +127,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
             });
 
         expect(
-            await ClientCredentialsAuth.load(settings).login()
+            await ClientCredentialsAuth.load(settings).login(),
         ).toMatchObject({
             error: {
                 type: 'testing_error',

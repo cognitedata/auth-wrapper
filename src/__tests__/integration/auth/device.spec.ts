@@ -30,7 +30,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking wellknow URL call for discover deviceAuthorization
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 device_authorization_endpoint: '/oauth2/devicecode',
@@ -48,7 +48,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -74,7 +74,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking wellknow URL call for discover deviceAuthorization
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 device_authorization_endpoint: '/oauth2/devicecode',
@@ -92,7 +92,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -123,7 +123,7 @@ describe('Testing core/auth/device.ts', () => {
             await DeviceAuth.load({
                 ...settings,
                 authority: 'wrong_authority',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: INVALID.error_response });
     });
 
@@ -134,7 +134,7 @@ describe('Testing core/auth/device.ts', () => {
             await DeviceAuth.load({
                 ...settings,
                 authority: 'https://google.com',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: DISCOVER.error_response });
     });
 
@@ -144,7 +144,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(400, {
                 error: 'testing_error',
