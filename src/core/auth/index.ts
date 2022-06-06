@@ -29,9 +29,10 @@ class AuthWrapper implements IAuth {
 
     /**
      * Login by selected method and return access_token.
+     * @params refresh_token string
      * @returns Promise<AuthResponse>
      */
-    async login(): Promise<AuthResponse> {
+    async login(refresh_token?: string): Promise<AuthResponse> {
         if (!this.settings || !this.method) return;
 
         if (this.method === 'client_credentials') {
@@ -39,7 +40,7 @@ class AuthWrapper implements IAuth {
         }
 
         if (this.method === 'device') {
-            return DeviceAuth.load(this.settings).login();
+            return DeviceAuth.load(this.settings).login(refresh_token);
         }
 
         if (this.method === 'implicit') {
@@ -47,7 +48,7 @@ class AuthWrapper implements IAuth {
         }
 
         if (this.method === 'pkce') {
-            return PkceAuth.load(this.settings).login();
+            return PkceAuth.load(this.settings).login(refresh_token);
         }
     }
 }
