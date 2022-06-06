@@ -3,11 +3,12 @@ import * as nock from 'nock';
 
 import clientMock from '../../__mocks__/client.mock';
 import issuerMock from '../../__mocks__/issuer.mock';
-import ClientCredentialsAuth from '../../../core/auth/client_credentials';
 import { DISCOVER, INVALID } from '../../../core/openid/endpoints.json';
+import { CogniteAuthWrapper } from '../../../index';
 import { ISettings } from '../../../interfaces/common';
 
 describe('Testing core/auth/client_credentials.ts', () => {
+    const method = 'client_credentials';
     const tenant = `/${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`;
     const settings: ISettings = {
         authority: `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
@@ -42,7 +43,8 @@ describe('Testing core/auth/client_credentials.ts', () => {
         //     .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
         //     .reply(200, clientMock.token);
 
-        const grantResponse = await ClientCredentialsAuth.load(
+        const grantResponse = await CogniteAuthWrapper.load(
+            method,
             settings,
         ).login();
 
@@ -78,7 +80,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await ClientCredentialsAuth.load({
+        const grantResponse = await CogniteAuthWrapper.load(method, {
             ...settings,
             grant_type: 'authorization_code',
         }).login();
@@ -93,7 +95,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         expect.assertions(1);
 
         expect(
-            await ClientCredentialsAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'wrong_authority',
                 grant_type: 'authorization_code',
@@ -105,7 +107,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
         expect.assertions(1);
 
         expect(
-            await ClientCredentialsAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'https://google.com',
                 grant_type: 'authorization_code',
@@ -127,7 +129,7 @@ describe('Testing core/auth/client_credentials.ts', () => {
             });
 
         expect(
-            await ClientCredentialsAuth.load(settings).login(),
+            await CogniteAuthWrapper.load(method, settings).login(),
         ).toMatchObject({
             error: {
                 type: 'testing_error',

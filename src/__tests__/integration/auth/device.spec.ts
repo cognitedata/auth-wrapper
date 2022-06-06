@@ -3,11 +3,12 @@ import * as nock from 'nock';
 
 import clientMock from '../../__mocks__/client.mock';
 import issuerMock from '../../__mocks__/issuer.mock';
-import DeviceAuth from '../../../core/auth/device';
 import { INVALID, DISCOVER } from '../../../core/openid/endpoints.json';
+import { CogniteAuthWrapper } from '../../../index';
 import { ISettings } from '../../../interfaces/common';
 
 describe('Testing core/auth/device.ts', () => {
+    const method = 'device';
     const settings: ISettings = {
         authority: `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         client_id: issuerMock.issuers[0].client_id,
@@ -59,7 +60,10 @@ describe('Testing core/auth/device.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await DeviceAuth.load(settings).login();
+        const grantResponse = await CogniteAuthWrapper.load(
+            method,
+            settings,
+        ).login();
         expect(grantResponse).toHaveProperty('token_type');
         expect(grantResponse).toHaveProperty('expires_in');
         expect(grantResponse).toHaveProperty('ext_expires_in');
@@ -103,7 +107,7 @@ describe('Testing core/auth/device.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await DeviceAuth.load({
+        const grantResponse = await CogniteAuthWrapper.load(method, {
             ...settings,
             client_secret: '',
         }).login();
@@ -120,7 +124,7 @@ describe('Testing core/auth/device.ts', () => {
         expect.assertions(1);
 
         expect(
-            await DeviceAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'wrong_authority',
             }).login(),
@@ -131,7 +135,7 @@ describe('Testing core/auth/device.ts', () => {
         expect.assertions(1);
 
         expect(
-            await DeviceAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'https://google.com',
             }).login(),
@@ -151,7 +155,9 @@ describe('Testing core/auth/device.ts', () => {
                 error_description: 'just for testing',
             });
 
-        expect(await DeviceAuth.load(settings).login()).toMatchObject({
+        expect(
+            await CogniteAuthWrapper.load(method, settings).login(),
+        ).toMatchObject({
             error: {
                 type: 'testing_error',
                 value: 'just for testing',

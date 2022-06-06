@@ -3,11 +3,12 @@ import * as nock from 'nock';
 
 import clientMock from '../../__mocks__/client.mock';
 import issuerMock from '../../__mocks__/issuer.mock';
-import PkceAuth from '../../../core/auth/pkce';
 import { INVALID, DISCOVER } from '../../../core/openid/endpoints.json';
+import { CogniteAuthWrapper } from '../../../index';
 import { ISettings } from '../../../interfaces/common';
 
 describe('Testing core/auth/pkce.ts', () => {
+    const method = 'pkce';
     const settings: ISettings = {
         authority: `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         client_id: issuerMock.issuers[0].client_id,
@@ -52,7 +53,7 @@ describe('Testing core/auth/pkce.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await PkceAuth.load({
+        const grantResponse = await CogniteAuthWrapper.load(method, {
             ...settings,
             grant_type: 'authorization_code',
         }).login();
@@ -69,7 +70,7 @@ describe('Testing core/auth/pkce.ts', () => {
         expect.assertions(1);
 
         expect(
-            await PkceAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'wrong_authority',
                 grant_type: 'authorization_code',
@@ -81,7 +82,7 @@ describe('Testing core/auth/pkce.ts', () => {
         expect.assertions(1);
 
         expect(
-            await PkceAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'https://google.com',
                 grant_type: 'authorization_code',
@@ -102,7 +103,9 @@ describe('Testing core/auth/pkce.ts', () => {
                 error_description: 'just for testing',
             });
 
-        expect(await PkceAuth.load(settings).login()).toMatchObject({
+        expect(
+            await CogniteAuthWrapper.load(method, settings).login(),
+        ).toMatchObject({
             error: {
                 type: 'testing_error',
                 value: 'just for testing',
