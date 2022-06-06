@@ -1,16 +1,4 @@
 // Copyright 2022 Cognite AS
-import ClientCredentialsAuth from './core/auth/client_credentials';
-import DeviceAuth from './core/auth/device';
-import ImplicitAuth from './core/auth/implicit';
-import PkceAuth from './core/auth/pkce';
-import { IAuth } from './interfaces/auth';
-import { ISettings } from './interfaces/common';
+import * as CogniteAuthWrapper from './core/auth/index';
 
-export {
-    ClientCredentialsAuth,
-    DeviceAuth,
-    ImplicitAuth,
-    PkceAuth,
-    IAuth,
-    ISettings,
-};
+export default CogniteAuthWrapper;
