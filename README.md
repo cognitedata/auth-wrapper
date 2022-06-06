@@ -20,7 +20,7 @@ The samples' [README.md](./samples/README.md) has instructions for running the s
 
 E.g: Client Credentials
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const token = await CogniteAuthWrapper.load(
     'client_credentials',
