@@ -18,6 +18,22 @@ There are small bare-bones typescript projects in the `samples/` directory.
 They show how to include to retrieve a token with cognite Auth Wrapper by different methods.
 The samples' [README.md](./samples/README.md) has instructions for running the samples.
 
+E.g: Client Credentials
+```ts
+import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+
+const token = await CogniteAuthWrapper.load(
+    'client_credentials',
+    {
+        authority: 'your_authority',
+        client_id: 'your_client_id',
+        grant_type: 'your_grant_type',
+        client_secret: 'your_client_secret',
+        scope: 'your_scope'
+    }
+).login();
+```
+
 ## License
 
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
