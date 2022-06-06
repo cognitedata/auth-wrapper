@@ -17,7 +17,7 @@
 Aggregating asset:
 
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const token = await CogniteAuthWrapper.load(
     'client_credentials',
@@ -50,7 +50,7 @@ const token = await CogniteAuthWrapper.load(
 Aggregating asset:
 
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const token = await CogniteAuthWrapper.load(
     'device'
@@ -82,7 +82,7 @@ const token = await CogniteAuthWrapper.load(
 Aggregating asset:
 
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const settings = {
     authority: 'your_authority',
@@ -123,7 +123,7 @@ const refreshedTokenResponse = await CogniteAuthWrapper.load(
 Aggregating asset:
 
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const token = await CogniteAuthWrapper.load(
     'implicit',
@@ -156,7 +156,7 @@ const token = await CogniteAuthWrapper.load(
 Aggregating asset:
 
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const token = await CogniteAuthWrapper.load(
     'pkce',
@@ -188,7 +188,7 @@ const token = await CogniteAuthWrapper.load(
 Aggregating asset:
 
 ```ts
-import { CogniteAuthWrapper } from '@cognitedata/auth-wrapper';
+import { CogniteAuthWrapper } from '@cognite/auth-wrapper';
 
 const settings = {
     authority: 'your_authority',
