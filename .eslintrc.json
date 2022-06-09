@@ -32,6 +32,7 @@
         "consistent-return": "off",
         "no-underscore-dangle": "off",
         "@typescript-eslint/ban-ts-comment": "off",
+        "no-useless-return": "off",
         "import/no-dynamic-require": "off",
         "@typescript-eslint/no-var-requires": "off",
         "global-require": "off",

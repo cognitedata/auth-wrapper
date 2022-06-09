@@ -18,7 +18,7 @@ describe('Testing helper.ts', () => {
         test('should return code, cause issuer is micosoft', () => {
             expect.assertions(2);
             expect(deviceField('https://login.microsoftonline.com/')).toBe(
-                'code'
+                'code',
             );
         });
 
@@ -56,7 +56,7 @@ describe('Testing helper.ts', () => {
         test('should return issuer_problems error object cause code ECONNREFUSED', () => {
             expect.assertions(1);
             expect(
-                errorHandling({ ...errorStatusMock, code: 'ECONNREFUSED' })
+                errorHandling({ ...errorStatusMock, code: 'ECONNREFUSED' }),
             ).toEqual({
                 error: {
                     type: INVALID.error_response.type,
@@ -111,8 +111,8 @@ describe('Testing helper.ts', () => {
             expect.assertions(1);
             expect(
                 typeof base64.fromBase64(
-                    Buffer.from('testing').toString('base64')
-                )
+                    Buffer.from('testing').toString('base64'),
+                ),
             ).toBe('string');
         });
 
@@ -125,11 +125,11 @@ describe('Testing helper.ts', () => {
 
             expect(typeof encodedString).toBe('string');
             expect(
-                String(originalString) === String(encodedString)
+                String(originalString) === String(encodedString),
             ).toBeFalsy();
             expect(String(encodedString) === String(decodedString)).toBeFalsy();
             expect(
-                String(originalString) === String(decodedString)
+                String(originalString) === String(decodedString),
             ).toBeTruthy();
         });
     });

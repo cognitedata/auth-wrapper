@@ -15,14 +15,14 @@ describe('Testing error handling functions', () => {
     test('expect return error message when call ErrorHandler.getMessage()', () => {
         expect.assertions(1);
         expect(new ErrorHandler(errorString, errorCode).getMessage()).toBe(
-            errorString
+            errorString,
         );
     });
 
     test('expect return error status_code when call ErrorHandler.getStatusCode()', () => {
         expect.assertions(1);
         expect(
-            new ErrorHandler(errorString, errorCode).getStatusCode()
+            new ErrorHandler(errorString, errorCode).getStatusCode(),
         ).toEqual(400);
     });
 
@@ -32,7 +32,7 @@ describe('Testing error handling functions', () => {
             new ErrorHandler(errorString, errorCode)
                 .setErrors([errorString])
                 .getErrors()
-                .toString()
+                .toString(),
         ).toBe(errorString);
     });
 
@@ -42,10 +42,10 @@ describe('Testing error handling functions', () => {
             new ErrorHandler(
                 // @ts-ignore
                 { name: 'test', message: 'testing' },
-                errorCode
+                errorCode,
             )
                 .setErrors([{ name: 'test', message: 'testing' }])
-                .getErrors().length
+                .getErrors().length,
         ).toBe(1);
     });
 
@@ -68,7 +68,7 @@ describe('Testing error handling functions', () => {
     test('expect return message format does not supported when call ErrorHandler.extractMessage', () => {
         // @ts-ignore
         const error = new ErrorHandler(Number(30), errorCode).extractMessage(
-            Number(30)
+            Number(30),
         );
 
         expect(String(error)).toBe('message format does not supported');

@@ -1,35 +1,28 @@
 // Copyright 2022 Cognite AS
-import { ISettings, PkceAuth } from '../src/index';
-import { AuthResponse } from '../src/interfaces/auth';
+import { CogniteAuthWrapper } from '../src/index';
 
 class PkceSample {
-    // Your IdP credentials.
-    protected settings: ISettings = {
+    protected settings = {
         authority: process.env.COGNITE_AUTHORITY,
         client_id: process.env.COGNITE_CLIENT_ID,
         scope: process.env.COGNITE_SCOPE,
     };
 
     async load() {
-        if (
-            !this.settings.authority ||
-            !this.settings.client_id ||
-            !this.settings.scope
-        )
-            throw Error(
-                'You must set the environment variable COGNITE_AUTHORITY, COGNITE_CLIENT_ID and COGNITE_SCOPE'
-            );
+        const method = 'pkce';
 
         // Retrieving access_token.
-        const tokenResponse: AuthResponse = await PkceAuth.load(
-            this.settings
+        const tokenResponse = await CogniteAuthWrapper.load(
+            method,
+            this.settings,
         ).login();
 
         // Retrieving token with previous refresh_token
-        const refreshedTokenResponse = await PkceAuth.load(this.settings).login(
+        const refreshedTokenResponse = await CogniteAuthWrapper.load(
+            method,
+            this.settings,
             // @ts-ignore
-            tokenResponse?.refresh_token
-        );
+        ).login(tokenResponse.refresh_token);
 
         console.log(refreshedTokenResponse);
     }

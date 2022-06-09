@@ -15,8 +15,10 @@ interface IAuthRequest {
         method: Method,
         endpoint: string,
         config?: AxiosRequestConfig,
-        data?: T
+        data?: T,
     ): Promise<AxiosResponse<U>>;
 }
 
-export { IAuth, IAuthRequest, AuthResponse };
+type AuthMethod = 'client_credentials' | 'device' | 'implicit' | 'pkce';
+
+export { IAuth, IAuthRequest, AuthResponse, AuthMethod };

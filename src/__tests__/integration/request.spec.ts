@@ -13,7 +13,7 @@ describe('Testing providers/request.ts', () => {
     test('should return 200 and validate issuer field', async () => {
         expect.assertions(2);
         const { data: wellknowResponse, status } = await Request.init(
-            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`
+            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         ).request<unknown, IWellKnow>(
             'GET',
             issuerMock.issuers[0].paths.config,
@@ -21,7 +21,7 @@ describe('Testing providers/request.ts', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            }
+            },
         );
 
         expect(wellknowResponse.issuer).toBeDefined();
@@ -31,10 +31,10 @@ describe('Testing providers/request.ts', () => {
     test('should return 200 and validate issuer field without params', async () => {
         expect.assertions(2);
         const { data: wellknowResponse, status } = await Request.init(
-            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`
+            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         ).request<unknown, IWellKnow>(
             'GET',
-            issuerMock.issuers[0].paths.config
+            issuerMock.issuers[0].paths.config,
         );
 
         expect(wellknowResponse.issuer).toBeDefined();
@@ -44,12 +44,12 @@ describe('Testing providers/request.ts', () => {
     test('should return status === 200 and validate issuer field without params but with data', async () => {
         expect.assertions(2);
         const { status } = await Request.init(
-            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`
+            `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         ).request<unknown, IWellKnow>(
             'POST',
             issuerMock.issuers[0].paths.config,
             {},
-            { testing: 123 }
+            { testing: 123 },
         );
 
         expect(status).toBeDefined();

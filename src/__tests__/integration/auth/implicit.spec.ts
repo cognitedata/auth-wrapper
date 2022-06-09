@@ -3,11 +3,12 @@ import * as nock from 'nock';
 
 import clientMock from '../../__mocks__/client.mock';
 import issuerMock from '../../__mocks__/issuer.mock';
-import ImplicitAuth from '../../../core/auth/implicit';
 import { INVALID, DISCOVER } from '../../../core/openid/endpoints.json';
+import { CogniteAuthWrapper } from '../../../index';
 import { ISettings } from '../../../interfaces/common';
 
 describe('Testing core/auth/implicit.ts', () => {
+    const method = 'implicit';
     const settings: ISettings = {
         authority: `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         client_id: issuerMock.issuers[0].client_id,
@@ -32,7 +33,7 @@ describe('Testing core/auth/implicit.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 authorization_endpoint: `${tenant}/oauth2/v2.0/authorize`,
@@ -41,7 +42,7 @@ describe('Testing core/auth/implicit.ts', () => {
         // Mocking authorize URL call for grant step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -52,7 +53,7 @@ describe('Testing core/auth/implicit.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await ImplicitAuth.load({
+        const grantResponse = await CogniteAuthWrapper.load(method, {
             ...settings,
             grant_type: 'authorization_code',
         }).login();
@@ -71,7 +72,7 @@ describe('Testing core/auth/implicit.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 authorization_endpoint: `${tenant}/oauth2/v2.0/authorize`,
@@ -80,7 +81,7 @@ describe('Testing core/auth/implicit.ts', () => {
         // Mocking authorize URL call for grant step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -91,7 +92,7 @@ describe('Testing core/auth/implicit.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await ImplicitAuth.load({
+        const grantResponse = await CogniteAuthWrapper.load(method, {
             ...settings,
             grant_type: 'authorization_code',
             client_secret: null,
@@ -107,11 +108,11 @@ describe('Testing core/auth/implicit.ts', () => {
         expect.assertions(1);
 
         expect(
-            await ImplicitAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'wrong_authority',
                 grant_type: 'authorization_code',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: INVALID.error_response });
     });
 
@@ -119,11 +120,11 @@ describe('Testing core/auth/implicit.ts', () => {
         expect.assertions(1);
 
         expect(
-            await ImplicitAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'https://google.com',
                 grant_type: 'authorization_code',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: DISCOVER.error_response });
     });
 
@@ -133,14 +134,16 @@ describe('Testing core/auth/implicit.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(400, {
                 error: 'testing_error',
                 error_description: 'just for testing',
             });
 
-        expect(await ImplicitAuth.load(settings).login()).toMatchObject({
+        expect(
+            await CogniteAuthWrapper.load(method, settings).login(),
+        ).toMatchObject({
             error: {
                 type: 'testing_error',
                 value: 'just for testing',

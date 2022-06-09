@@ -8,7 +8,7 @@ import { IRequestResponse, IServer } from '../../interfaces/common';
  * @returns Promise<IServer | ErrorHandler>
  */
 const openServerAtPort = async (): Promise<IServer> => {
-    return new Promise<IServer>((resolve) => {
+    return new Promise<IServer>(resolve => {
         const app = express();
 
         const server = app.listen(59999, '0.0.0.0', () => {
@@ -25,7 +25,7 @@ const openServerAtPort = async (): Promise<IServer> => {
  */
 const listenForAuthCode = async (
     method: 'get' | 'post',
-    app: express.Express
+    app: express.Express,
 ): Promise<IRequestResponse> => {
     return new Promise<IRequestResponse>((resolve, reject) => {
         if (process.env.NODE_ENV === 'test')
@@ -34,7 +34,7 @@ const listenForAuthCode = async (
         app[method]('/callback', (req, res) => {
             if (req.query.error) {
                 res.end(
-                    `Something went wrong: ${req.query.error}, description: ${req.query.error_description}`
+                    `Something went wrong: ${req.query.error}, description: ${req.query.error_description}`,
                 );
                 return reject(req.query.error);
             }
@@ -43,14 +43,14 @@ const listenForAuthCode = async (
             if (!authCode) {
                 res.end(
                     `Well thats embarrassing, neither we got an auth code or any error ${JSON.stringify(
-                        req.query
-                    )}`
+                        req.query,
+                    )}`,
                 );
                 return reject();
             }
 
             res.end(
-                'You have authenticated successfully! Feel free to close this window.'
+                'You have authenticated successfully! Feel free to close this window.',
             );
             return resolve(<any>req.query);
         });

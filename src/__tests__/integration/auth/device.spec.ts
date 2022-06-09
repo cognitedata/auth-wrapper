@@ -3,11 +3,12 @@ import * as nock from 'nock';
 
 import clientMock from '../../__mocks__/client.mock';
 import issuerMock from '../../__mocks__/issuer.mock';
-import DeviceAuth from '../../../core/auth/device';
 import { INVALID, DISCOVER } from '../../../core/openid/endpoints.json';
+import { CogniteAuthWrapper } from '../../../index';
 import { ISettings } from '../../../interfaces/common';
 
 describe('Testing core/auth/device.ts', () => {
+    const method = 'device';
     const settings: ISettings = {
         authority: `${issuerMock.issuers[0].url}/${issuerMock.issuers[0].tenant_id}`,
         client_id: issuerMock.issuers[0].client_id,
@@ -30,7 +31,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking wellknow URL call for discover deviceAuthorization
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 device_authorization_endpoint: '/oauth2/devicecode',
@@ -48,7 +49,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -59,7 +60,10 @@ describe('Testing core/auth/device.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await DeviceAuth.load(settings).login();
+        const grantResponse = await CogniteAuthWrapper.load(
+            method,
+            settings,
+        ).login();
         expect(grantResponse).toHaveProperty('token_type');
         expect(grantResponse).toHaveProperty('expires_in');
         expect(grantResponse).toHaveProperty('ext_expires_in');
@@ -74,7 +78,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking wellknow URL call for discover deviceAuthorization
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 device_authorization_endpoint: '/oauth2/devicecode',
@@ -92,7 +96,7 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(200, {
                 token_endpoint: '/oauth2/token',
@@ -103,7 +107,7 @@ describe('Testing core/auth/device.ts', () => {
             .post(`/${issuerMock.issuers[0].tenant_id}/oauth2/token`)
             .reply(200, clientMock.token);
 
-        const grantResponse = await DeviceAuth.load({
+        const grantResponse = await CogniteAuthWrapper.load(method, {
             ...settings,
             client_secret: '',
         }).login();
@@ -120,10 +124,10 @@ describe('Testing core/auth/device.ts', () => {
         expect.assertions(1);
 
         expect(
-            await DeviceAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'wrong_authority',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: INVALID.error_response });
     });
 
@@ -131,10 +135,10 @@ describe('Testing core/auth/device.ts', () => {
         expect.assertions(1);
 
         expect(
-            await DeviceAuth.load({
+            await CogniteAuthWrapper.load(method, {
                 ...settings,
                 authority: 'https://google.com',
-            }).login()
+            }).login(),
         ).toMatchObject({ error: DISCOVER.error_response });
     });
 
@@ -144,14 +148,16 @@ describe('Testing core/auth/device.ts', () => {
         // Mocking authorize URL call for discover step
         nock(issuerMock.issuers[0].url)
             .get(
-                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`
+                `/${issuerMock.issuers[0].tenant_id}/${issuerMock.issuers[0].paths.config}`,
             )
             .reply(400, {
                 error: 'testing_error',
                 error_description: 'just for testing',
             });
 
-        expect(await DeviceAuth.load(settings).login()).toMatchObject({
+        expect(
+            await CogniteAuthWrapper.load(method, settings).login(),
+        ).toMatchObject({
             error: {
                 type: 'testing_error',
                 value: 'just for testing',
