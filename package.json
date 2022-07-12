@@ -3,7 +3,9 @@
   "version": "0.0.0-development",
   "description": "A OpenID Connect/OAuth 2.0 auth wrapper.",
   "contributors": [
-    "Joao Harbs <joao.harbs@cognite.com>"
+    "Joao Harbs <joao.harbs@cognite.com>",
+    "Harish Krish <harish.krishnan@cognite.com>",
+    "Rodrigo <rodrigo.ornellas@cognite.com>"
   ],
   "license": "Apache-2.0",
   "repository": {
