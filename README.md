@@ -6,7 +6,7 @@
 
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
-This package is deprecated due to low usage. We recommend to use SDKs for your auth provider instead, like the [msal package](https://www.npmjs.com/package/@azure/msal-browser) for Microsoft Azure AD.
+This package is deprecated due to low usage. We instead recommend to use SDK for your auth provider, like the [msal package](https://www.npmjs.com/package/@azure/msal-browser) for Microsoft Azure AD.
 
 ---
 
