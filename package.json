@@ -1,7 +1,7 @@
 {
   "name": "@cognite/auth-wrapper",
   "version": "0.0.0-development",
-  "description": "A OpenID Connect/OAuth 2.0 auth wrapper.",
+  "description": "⛔️ DEPRECATED - A OpenID Connect/OAuth 2.0 auth wrapper.",
   "contributors": [
     "Joao Harbs <joao.harbs@cognite.com>"
   ],
