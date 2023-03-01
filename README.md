@@ -2,9 +2,13 @@
     <img src="./cognite_logo.png" alt="Cognite logo" title="Cognite" align="right" height="80" />
 </a>
 
-# @cognite/auth-wrapper
+# DEPRECATED (@cognite/auth-wrapper)
 
-[![codecov](https://codecov.io/gh/cognitedata/auth-wrapper/branch/main/graph/badge.svg?token=3dhnnL5sHo)](https://codecov.io/gh/cognitedata/auth-wrapper)
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+This package is deprecated due to low usage. We recommend to use SDKs for your auth provider instead, like the [msal package](https://www.npmjs.com/package/@azure/msal-browser) for Microsoft Azure AD.
+
+---
 
 The `@cognite/auth-wrapper` is an OpenID Connect/OAuth 2.0 Wrapper library written in js that provides a convenient way to retrieve access token from any IdP that meets the openid pattern. You can use on client-side or server-side with JavaScript applications.
 
